@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 var webpack = require('webpack');
 
 module.exports = {
@@ -27,7 +29,8 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
+      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
+      { test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/ },
     ],
-  }
-}
+  },
+};
