@@ -4,7 +4,7 @@ import ReactProjectionGrid, {
   FilterPlugin,
 } from 'react-projection-grid';
 
-export default class GridContainer extends Component {
+export default class ExampleGrid extends Component {
   constructor(props) {
     super(props);
 
