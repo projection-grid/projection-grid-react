@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "demo": "webpack-dev-server --hot --inline",
+    "demo:basic": "cd demo/basic && webpack-dev-server --hot --inline --colors",
     "build": "webpack",
     "eslint": "eslint --ext .js src"
   },
@@ -40,6 +40,7 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-react": "6.9.0",
+    "minimist": "^1.2.0",
     "pre-commit": "^1.2.2",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.3"
@@ -49,5 +50,7 @@
     "react-dom": "^16.0.0",
     "react-hot-loader": "^3.1.1"
   },
-  "pre-commit": [ "eslint" ]
+  "pre-commit": [
+    "eslint"
+  ]
 }

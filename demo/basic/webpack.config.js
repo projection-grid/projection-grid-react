@@ -6,12 +6,16 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: [
     'react-hot-loader/patch',
-    './src/index.js',
+    './index.js',
   ],
   output: {
     path: __dirname + '/dist',
     filename: 'index.js',
     publicPath: '/',
+  },
+  devServer: {
+    contentBase: './',
+    port: 9001,
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
