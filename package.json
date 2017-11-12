@@ -10,7 +10,8 @@
     "demo:basic": "cd demo/basic && webpack-dev-server --hot --inline --colors",
     "build": "webpack",
     "eslint": "eslint --ext .js src",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "npm build"
   },
   "repository": {
     "type": "git",
