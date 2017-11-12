@@ -1,0 +1,72 @@
+{
+  "name": "react-projection-grid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "demo:basic": "cd demo/basic && webpack-dev-server --hot --inline --colors",
+    "build": "webpack",
+    "eslint": "eslint --ext .js src",
+    "test": "jest",
+    "prepublish": "npm run build && npm run jsdoc",
+    "jsdoc": "jsdoc -c ./jsdoc.config.json -d ./jsdoc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/projection-grid/react-projection-grid.git"
+  },
+  "keywords": [
+    "react",
+    "projection",
+    "grid",
+    "table",
+    "component"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/projection-grid/react-projection-grid/issues"
+  },
+  "homepage": "https://github.com/projection-grid/react-projection-grid#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^21.2.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb": "14.0.0",
+    "eslint-config-airbnb-base": "11.0.1",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jsx-a11y": "3.0.2",
+    "eslint-plugin-react": "6.9.0",
+    "jest": "^21.2.1",
+    "jsdoc": "^3.5.5",
+    "minimist": "^1.2.0",
+    "pre-commit": "^1.2.2",
+    "react-test-renderer": "^16.1.0",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.3"
+  },
+  "dependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-hot-loader": "^3.1.1"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage-report",
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
+  }
+}
