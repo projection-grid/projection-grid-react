@@ -57,10 +57,6 @@
     "react-dom": "^16.0.0",
     "react-hot-loader": "^3.1.1"
   },
-  "pre-commit": [
-    "eslint",
-    "test"
-  ],
   "jest": {
     "collectCoverage": true,
     "coverageDirectory": "./coverage-report",
