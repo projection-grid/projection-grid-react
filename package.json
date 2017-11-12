@@ -11,7 +11,7 @@
     "build": "webpack",
     "eslint": "eslint --ext .js src",
     "test": "jest",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build && npm run jsdoc",
     "jsdoc": "jsdoc -c ./jsdoc.config.json -d ./jsdoc"
   },
   "repository": {
