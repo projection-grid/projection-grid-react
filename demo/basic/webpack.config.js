@@ -17,9 +17,6 @@ module.exports = {
     contentBase: './',
     port: 9001,
   },
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-  ],
   module: {
     rules: [
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },

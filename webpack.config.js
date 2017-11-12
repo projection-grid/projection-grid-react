@@ -13,9 +13,6 @@ module.exports = {
     filename: 'index.js',
     publicPath: '/',
   },
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-  ],
   module: {
     rules: [
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
