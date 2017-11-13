@@ -12,7 +12,8 @@
     "eslint": "eslint --ext .js src",
     "test": "jest",
     "prepublish": "npm run build && npm run jsdoc",
-    "jsdoc": "jsdoc -c ./jsdoc.config.json -d ./jsdoc"
+    "jsdoc": "jsdoc -c ./jsdoc.config.json -d ./jsdoc",
+    "dev": "cd demo/dev && webpack-dev-server --hot --inline --colors"
   },
   "repository": {
     "type": "git",
