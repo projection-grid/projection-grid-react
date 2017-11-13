@@ -11,16 +11,21 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     filename: 'index.js',
-    publicPath: '/',
   },
   devServer: {
     contentBase: './',
     port: 9001,
+    publicPath: '/dist/'
   },
   module: {
     rules: [
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/ },
+      { test: /\.js$/, loader: 'eslint-loader', exclude: [/node_modules/, /dist/] },
     ],
+  },
+  resolve: {
+    alias: {
+      ReactProjectionGrid: '../../dist/index',
+    },
   },
 };
