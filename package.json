@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "demo:basic": "cd demo/basic && webpack-dev-server --hot --inline --colors",
+    "demo:basic": "webpack && cd demo/basic && webpack",
     "build": "webpack",
     "eslint": "eslint --ext .js src",
     "test": "jest",

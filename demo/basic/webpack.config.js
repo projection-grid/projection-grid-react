@@ -11,7 +11,6 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     filename: 'index.js',
-    publicPath: '/',
   },
   devServer: {
     contentBase: './',
@@ -20,7 +19,7 @@ module.exports = {
   module: {
     rules: [
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/ },
+      { test: /\.js$/, loader: 'eslint-loader', exclude: [/node_modules/, /dist/] },
     ],
   },
 };
