@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import ReactProjectionGrid from '../../dist/index';
+import ReactProjectionGrid from 'ReactProjectionGrid'; // eslint-disable-line
 
 render((
   <div className="demo">

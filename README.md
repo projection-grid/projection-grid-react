@@ -18,10 +18,10 @@ To build the library:
 npm run build
 ```
 
-To build the basic demo:
+To build the default demo:
 
 ```bash
-npm run demo:basic
+npm run demo
 ```
 
 To start the dev page with hot reloading

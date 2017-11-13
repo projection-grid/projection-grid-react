@@ -7,13 +7,13 @@
     "example": "examples"
   },
   "scripts": {
-    "demo:basic": "webpack && cd demo/basic && webpack",
+    "demo": "webpack && cd demo/default && webpack",
     "build": "webpack",
     "eslint": "eslint --ext .js src",
     "test": "jest",
     "prepublish": "npm run build && npm run jsdoc",
     "jsdoc": "jsdoc -c ./jsdoc.config.json -d ./jsdoc",
-    "dev": "cd demo/dev && webpack-dev-server --hot --inline --colors"
+    "dev": "cd demo/default && webpack-dev-server --hot --inline --colors --config ./webpack.dev.config.js"
   },
   "repository": {
     "type": "git",
