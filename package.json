@@ -11,7 +11,7 @@
     "build": "webpack",
     "eslint": "eslint --ext .js src",
     "test": "jest",
-    "prepublish": "npm run build && npm run jsdoc",
+    "prepublishOnly": "npm run build && npm run jsdoc",
     "jsdoc": "jsdoc -c ./jsdoc.config.json -d ./jsdoc",
     "dev": "cd demo/default && webpack-dev-server --hot --inline --colors --config ./webpack.dev.config.js"
   },
@@ -54,6 +54,7 @@
     "webpack-dev-server": "^2.9.3"
   },
   "dependencies": {
+    "projection-grid": "^0.1.7",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-hot-loader": "^3.1.1"
