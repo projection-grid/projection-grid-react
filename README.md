@@ -4,7 +4,7 @@
 
 ### Workflow
 
-1. Fork the repository.
+1. Fork the repository. Please refer to: https://help.github.com/articles/syncing-a-fork/
 2. Work on your own repository.
 3. Send out pull request.
 4. Reviewer review the change and approve/request change.
