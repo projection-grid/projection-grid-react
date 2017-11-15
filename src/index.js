@@ -11,7 +11,7 @@ class ReactProjectionGrid extends Component {
       .create({
         tableClasses: props.config.tableClasses,
         dataSource: props.config.dataSource,
-      }).gridView;
+      }).gridView.render();
   }
 
   componentWillUnmount() {
