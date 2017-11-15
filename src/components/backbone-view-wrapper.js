@@ -13,6 +13,10 @@ class BackboneViewWrapper extends Component {
     this.view.$el.appendTo(this.container);
   }
 
+  componentWillUnmount() {
+    this.view.$el.detach();
+  }
+
   render() {
     return (
       <div ref={(container) => { this.container = container; }} className={this.containerClass}></div> // eslint-disable-line
