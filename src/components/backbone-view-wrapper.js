@@ -10,7 +10,7 @@ class BackboneViewWrapper extends Component {
   }
 
   componentDidMount() {
-    this.view.$el.appendTo(this.container);
+    this.view.render().$el.appendTo(this.container);
   }
 
   componentWillUnmount() {

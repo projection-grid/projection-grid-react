@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import pgrid from 'projection-grid';
 import PropTypes from 'prop-types';
 
 import BackboneViewWrapper from './components/backbone-view-wrapper';
 
-function ReactProjectionGrid(props) {
-  const gridView = pgrid.factory({ vnext: true })
-    .create({
-      tableClasses: props.config.tableClasses,
-      dataSource: props.config.dataSource,
-    }).gridView;
+class ReactProjectionGrid extends Component {
+  constructor(props) {
+    super(props);
+    this.gridView = pgrid.factory({ vnext: true })
+      .create({
+        tableClasses: props.config.tableClasses,
+        dataSource: props.config.dataSource,
+      }).gridView;
+  }
 
-  return (
-    <BackboneViewWrapper view={gridView.render()} />
-  );
+  componentWillUnmount() {
+    this.gridView.remove();
+  }
+
+  render() {
+    return (
+      <BackboneViewWrapper view={this.gridView} />
+    );
+  }
 }
 
 ReactProjectionGrid.propTypes = {
