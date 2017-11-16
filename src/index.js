@@ -8,24 +8,48 @@ import BackboneViewWrapper from './components/backbone-view-wrapper';
 class ReactProjectionGrid extends Component {
   constructor(props) {
     super(props);
+
     this.gridView = pgrid.factory({ vnext: true })
       .create({
         tableClasses: props.config.tableClasses,
         dataSource: props.config.dataSource,
       }).gridView.render();
+
+    this.plugins = {
+      grid: this.gridView,
+    };
+  }
+
+  componentDidMount() {
+    this.setPlugins();
+  }
+
+  componentDidUpdate() {
+    this.setPlugins();
   }
 
   componentWillUnmount() {
     this.gridView.remove();
   }
 
-  render() {
-    this.plugins = _.flatten([this.props.children]);
+  setPlugins() {
+    _.each(_.flatten([this.props.children]), (plugin) => {
+      plugin.type(this.plugin.bind(this), plugin.props);
+    });
+  }
 
-    _.each(this.plugins, (plugin) => {
-      plugin.type(plugin.props, this.gridView);
+  plugin(name, deps, callback) {
+    _.each(deps, (dep) => {
+      if (!_.has(this.plugins, dep)) {
+        throw new Error(`unresolved plugin dependency ${name} -> ${dep}`);
+      }
     });
 
+    this.plugins[name] = callback.apply(this /* allow plugin acces to the context */,
+      (_.map(deps, dep => this.plugins[dep])));
+  }
+
+  render() {
     return (
       <BackboneViewWrapper view={this.gridView} />
     );

@@ -20,8 +20,8 @@ export default class App extends Component {
 
     this.state = {
       columns: [
-        { name: 'UserName' },
-        { name: 'FirstName', title: 'first name' },
+        { name: 'UserName', sortable: true },
+        { name: 'FirstName', title: 'first name', head: <h1>first name</h1> },
         { name: 'LastName', title: 'last name' },
         {
           name: 'AddressInfo',
@@ -32,7 +32,7 @@ export default class App extends Component {
             }
 
             return _.map(addressInfo, addressInfoItem => (
-              <ul>
+              <ul key={_.uniqueId()} >
                 <li key={_.uniqueId()}>{addressInfoItem.Address}</li>
                 <li key={_.uniqueId()}>{JSON.stringify(addressInfoItem.City)}</li>
               </ul>
