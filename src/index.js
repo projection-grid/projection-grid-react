@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import _ from 'underscore';
 
 import BackboneViewWrapper from './components/backbone-view-wrapper';
+import hocPlugin from './components/plugin-wrapper';
 
 class ReactProjectionGrid extends Component {
   constructor(props) {
@@ -20,38 +21,18 @@ class ReactProjectionGrid extends Component {
     };
   }
 
-  componentDidMount() {
-    this.setPlugins();
-  }
-
-  componentDidUpdate() {
-    this.setPlugins();
-  }
-
   componentWillUnmount() {
     this.gridView.remove();
   }
 
-  setPlugins() {
-    _.each(_.flatten([this.props.children]), (plugin) => {
-      plugin.type(this.plugin.bind(this), plugin.props);
-    });
-  }
-
-  plugin(name, deps, callback) {
-    _.each(deps, (dep) => {
-      if (!_.has(this.plugins, dep)) {
-        throw new Error(`unresolved plugin dependency ${name} -> ${dep}`);
-      }
-    });
-
-    this.plugins[name] = callback.apply(this /* allow plugin acces to the context */,
-      (_.map(deps, dep => this.plugins[dep])));
-  }
-
   render() {
+    const children = React.Children.map(_.flatten([this.props.children]), child =>
+      hocPlugin(child, this.gridView, this.props.onChanged));
     return (
-      <BackboneViewWrapper view={this.gridView} />
+      <div>
+        <BackboneViewWrapper view={this.gridView} />
+        {children}
+      </div>
     );
   }
 }
@@ -68,12 +49,15 @@ ReactProjectionGrid.propTypes = {
     PropTypes.arrayOf(PropTypes.object),
     PropTypes.object,
   ]),
+  onChanged: PropTypes.func,
 };
 
 ReactProjectionGrid.defaultProps = {
   children: [],
+  onChanged: _.noop,
 };
 
 export default ReactProjectionGrid;
 
 export * from './plugins/column-chooser';
+export * from './plugins/pagination';
