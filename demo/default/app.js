@@ -15,6 +15,7 @@ export default function () {
           record)
         ),
         primaryKey: 'UserName',
+        columns: ['LastName', 'AddressInfo'],
       }}
     />
   );

@@ -4120,6 +4120,10 @@ progress@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
 
+projection-grid-core@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/projection-grid-core/-/projection-grid-core-0.0.2.tgz#98c6097a55776b9c00d63078011792d892cd3cd7"
+
 projection-grid@^0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/projection-grid/-/projection-grid-0.1.7.tgz#9dd9efb355ba3f987b20505ccbcb2e05ee9a6626"

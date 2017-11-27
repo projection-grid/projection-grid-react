@@ -20,12 +20,12 @@ export const TableRender = (props) => {
   return (
     <div>
       <table>
-        <caption {...table.caption.attributes}>
+        {/* <caption {...table.caption.attributes}>
           <table.caption.content.Component
             {...table.caption.content.props}
             {...table.caption.content.events}
           />
-        </caption>
+        </caption> */}
         {table.colgroups.map(colgroup => (
           <colgroup key={colgroup.key} {...colgroup.attributes}>
             {colgroup.cols.map(col => (
@@ -49,9 +49,9 @@ export const TableRender = (props) => {
             {renderTrs(tbody.trs)}
           </tbody>
         ))}
-        <tfoot {...table.tfoot.attributes}>
+        {/* <tfoot {...table.tfoot.attributes}>
           {renderTrs(table.tfoot.trs)}
-        </tfoot>
+        </tfoot> */}
       </table>
     </div>
   );
