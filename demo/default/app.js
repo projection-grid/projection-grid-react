@@ -9,12 +9,12 @@ export default function () {
   return (
     <ReactProjectionGrid
       config={{
-        data: _.map(people.value, record => _.defaults({ Count: 0 }, record)),
+        data: _.map(people.value, record => _.defaults(
+          { Count: 0 },
+          { AddressInfo: record.AddressInfo ? JSON.stringify(record.AddressInfo) : '' },
+          record)
+        ),
         primaryKey: 'UserName',
-        columns: [
-          'LastName',
-          'Emails',
-        ],
       }}
     />
   );

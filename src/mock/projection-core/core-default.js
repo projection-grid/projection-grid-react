@@ -14,7 +14,7 @@ import { compose } from './compose';
 
 export function CoreDefault(config) {
   const primaryKey = config.primaryKey;
-  const columns = config.columns || [];
+  const columns = config.columns || _.keys(_.first(config.data));
   const model = {
     records: config.data,
     primaryKey: _.isString(primaryKey) ? _.property(primaryKey) : primaryKey,
