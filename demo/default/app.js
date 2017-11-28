@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'underscore';
 
-import ReactProjectionGrid, { ColumnChooser, Pagination } from 'ReactProjectionGrid'; // eslint-disable-line
+import ReactProjectionGrid, { getPagination, getSelection } from 'ReactProjectionGrid'; // eslint-disable-line
 
 import people from './people.json';
 
@@ -28,7 +28,9 @@ export default class App extends Component {
         {
           name: 'AddressInfo',
           title: 'Address',
-          cell: (addressInfo) => {
+          Component: ({ record }) => {
+            const { AddressInfo: addressInfo } = record;
+
             if (_.isEmpty(addressInfo)) {
               return <span>No address information</span>;
             }
@@ -45,6 +47,7 @@ export default class App extends Component {
       pageNumber: 0,
       pageSize,
       pageCount: Math.ceil(_.size(config.dataSource.data) / pageSize),
+      selectedKeys: [],
     };
   }
 
@@ -57,7 +60,7 @@ export default class App extends Component {
             e.preventDefault();
 
             this.setState({
-              columns: [...this.state.columns, { name: 'Emails' }],
+              columns: _.uniq([...this.state.columns, { name: 'Emails' }]),
             });
           }}
         > Add emails column </button>
@@ -95,19 +98,22 @@ export default class App extends Component {
           }
           }
         > Next page </button>
+        <div>selected items is: {JSON.stringify(this.state.selectedKeys)}</div>
         <ReactProjectionGrid
-          config={config}
-          onChanged={(...args) => {
-            console.log('change grid event:' + JSON.stringify(args)); // eslint-disable-line
+          config={{
+            records: people.value,
+            columns: this.state.columns,
+            primaryKey: 'UserName',
           }}
-        >
-          <ColumnChooser columns={this.state.columns} />
-          <Pagination
-            pageNumber={this.state.pageNumber}
-            pageCount={this.state.pageCount}
-            pageSize={this.state.pageSize}
-          />
-        </ReactProjectionGrid>
+          projections={[getPagination({
+            pageNumber: this.state.pageNumber,
+            pageSize: this.state.pageSize,
+          }), getSelection({
+            onSelectChanged: selectedKeys => this.setState({ selectedKeys }),
+            selected: this.state.selectedKeys,
+          }),
+          ]}
+        />
       </div>
     );
   }

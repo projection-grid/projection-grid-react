@@ -1,63 +1,27 @@
 import React, { Component } from 'react';
-import pgrid from 'projection-grid';
-import PropTypes from 'prop-types';
-import _ from 'underscore';
+import ProjectionGridCore from 'projection-grid-core';
+import { TableRender } from './components/table-renderer';
+import reactDefault from './projections/react-default';
 
-import BackboneViewWrapper from './components/backbone-view-wrapper';
-import hocPlugin from './components/plugin-wrapper';
+/* eslint-disable  react/prop-types */
 
 class ReactProjectionGrid extends Component {
-  constructor(props) {
-    super(props);
-
-    this.gridView = pgrid.factory({ vnext: true })
-      .create({
-        tableClasses: props.config.tableClasses,
-        dataSource: props.config.dataSource,
-      }).gridView.render();
-
-    this.plugins = {
-      grid: this.gridView,
-    };
-  }
-
-  componentWillUnmount() {
-    this.gridView.remove();
+  componentWillMount() {
+    this.core = new ProjectionGridCore();
   }
 
   render() {
-    const children = React.Children.map(_.flatten([this.props.children]), child =>
-      hocPlugin(child, this.gridView, this.props.onChanged));
+    const model = this.core.compose({
+      config: this.props.config,
+      projections: [reactDefault, ...this.props.projections || []],
+    });
     return (
-      <div>
-        <BackboneViewWrapper view={this.gridView} />
-        {children}
-      </div>
+      <TableRender model={model} />
     );
   }
 }
 
-ReactProjectionGrid.propTypes = {
-  config: PropTypes.shape({
-    tableClasses: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    dataSource: PropTypes.object,
-  }).isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object),
-    PropTypes.object,
-  ]),
-  onChanged: PropTypes.func,
-};
-
-ReactProjectionGrid.defaultProps = {
-  children: [],
-  onChanged: _.noop,
-};
-
 export default ReactProjectionGrid;
 
-export * from './plugins/column-chooser';
-export * from './plugins/pagination';
+export * from './projections/pagination';
+export * from './projections/selection';
