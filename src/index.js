@@ -22,3 +22,6 @@ class ReactProjectionGrid extends Component {
 }
 
 export default ReactProjectionGrid;
+
+export * from './projections/pagination';
+export * from './projections/selection';
