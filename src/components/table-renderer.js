@@ -38,7 +38,7 @@ export const TableRender = (props) => {
 
   return (
     <div>
-      <table>
+      <table {...table.attributes}>
         {caption}
         {table.colgroups.map(colgroup => (
           <colgroup key={colgroup.key} {...colgroup.attributes}>

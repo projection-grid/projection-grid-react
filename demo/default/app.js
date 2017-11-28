@@ -1,7 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.css';
 import React, { Component } from 'react';
 import _ from 'underscore';
 
-import ReactProjectionGrid, { getPagination, getSelection } from 'ReactProjectionGrid'; // eslint-disable-line
+import ReactProjectionGrid, { getPagination, getSelection, bootstrapProjection } from 'ReactProjectionGrid'; // eslint-disable-line
 
 import people from './people.json';
 
@@ -56,49 +57,30 @@ export default class App extends Component {
       <div className="demo">
         <h3>This is the basic demo</h3>
         <button
+          className="btn btn-primary"
           onClick={(e) => {
             e.preventDefault();
 
             this.setState({
-              columns: _.uniq([...this.state.columns, { name: 'Emails' }]),
+              columns: [...this.state.columns, { name: 'Emails' }],
             });
           }}
         > Add emails column </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
 
-            this.setState((preState) => {
-              if (preState.pageNumber > 0) {
-                return {
-                  pageNumber: preState.pageNumber - 1,
-                };
-              }
-              return {
-                pageNumber: preState.pageNumber,
-              };
-            });
-          }
-          }
-        > Previous page </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
 
-            this.setState((preState) => {
-              if (preState.pageNumber < preState.pageCount - 1) {
-                return {
-                  pageNumber: preState.pageNumber + 1,
-                };
-              }
-              return {
-                pageNumber: preState.pageNumber,
-              };
-            });
-          }
-          }
-        > Next page </button>
-        <div>selected items is: {JSON.stringify(this.state.selectedKeys)}</div>
+        <div>selected items is: {
+          this.state.selectedKeys.map(key => (
+            <button
+              key={key}
+              className="badge badge-primary badge-pill"
+              onClick={() => {
+                this.setState({
+                  selectedKeys: _.without(this.state.selectedKeys, key),
+                });
+              }}
+            >{key}</button>
+          ))
+        }</div>
         <ReactProjectionGrid
           config={{
             records: people.value,
@@ -111,9 +93,47 @@ export default class App extends Component {
           }), getSelection({
             onSelectChanged: selectedKeys => this.setState({ selectedKeys }),
             selected: this.state.selectedKeys,
-          }),
+          }), bootstrapProjection({ modifier: 'table-striped table-dark' }),
           ]}
         />
+        <div className="btn-group" role="group">
+          <button
+            className="btn btn-secondary"
+            onClick={(e) => {
+              e.preventDefault();
+
+              this.setState((preState) => {
+                if (preState.pageNumber > 0) {
+                  return {
+                    pageNumber: preState.pageNumber - 1,
+                  };
+                }
+                return {
+                  pageNumber: preState.pageNumber,
+                };
+              });
+            }
+            }
+          > Previous page </button>
+          <button
+            className="btn btn-secondary"
+            onClick={(e) => {
+              e.preventDefault();
+
+              this.setState((preState) => {
+                if (preState.pageNumber < preState.pageCount - 1) {
+                  return {
+                    pageNumber: preState.pageNumber + 1,
+                  };
+                }
+                return {
+                  pageNumber: preState.pageNumber,
+                };
+              });
+            }
+            }
+          > Next page </button>
+        </div>
       </div>
     );
   }
