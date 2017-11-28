@@ -81,6 +81,44 @@ export default class App extends Component {
             bootstrapProjection({ modifier: 'table-striped table-dark' }),
           ]}
         />
+        <div className="btn-group" role="group">
+          <button
+            className="btn btn-secondary"
+            onClick={(e) => {
+              e.preventDefault();
+
+              this.setState((preState) => {
+                if (preState.pageNumber > 0) {
+                  return {
+                    pageNumber: preState.pageNumber - 1,
+                  };
+                }
+                return {
+                  pageNumber: preState.pageNumber,
+                };
+              });
+            }
+            }
+          > Previous page </button>
+          <button
+            className="btn btn-secondary"
+            onClick={(e) => {
+              e.preventDefault();
+
+              this.setState((preState) => {
+                if (preState.pageNumber < preState.pageCount - 1) {
+                  return {
+                    pageNumber: preState.pageNumber + 1,
+                  };
+                }
+                return {
+                  pageNumber: preState.pageNumber,
+                };
+              });
+            }
+            }
+          > Next page </button>
+        </div>
       </div>
     );
   }
