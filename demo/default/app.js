@@ -1,31 +1,22 @@
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css'; // eslint-disable-line
 import React, { Component } from 'react';
 import _ from 'underscore';
 
-import ReactProjectionGrid, { getPagination, getSelection, bootstrapProjection } from 'ReactProjectionGrid'; // eslint-disable-line
+import ReactProjectionGrid, { sortable, bootstrapProjection } from 'ReactProjectionGrid'; // eslint-disable-line
 
 import people from './people.json';
-
-const config = {
-  tableClasses: ['table', 'table-bordered'],
-  dataSource: {
-    type: 'memory',
-    data: people.value,
-    primaryKey: 'UserName',
-  },
-};
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-
-    const pageSize = 3;
+    this.handleResort = this.handleResort.bind(this);
 
     this.state = {
+      records: _.sortBy(people.value, 'LastName'),
       columns: [
-        { name: 'UserName', sortable: true },
+        { name: 'UserName', sorting: true },
         { name: 'FirstName', title: 'first name', head: <h1>first name</h1> },
-        { name: 'LastName', title: 'last name' },
+        { name: 'LastName', title: 'last name', sorting: 'asc' },
         {
           name: 'AddressInfo',
           title: 'Address',
@@ -45,95 +36,51 @@ export default class App extends Component {
           },
         },
       ],
-      pageNumber: 0,
-      pageSize,
-      pageCount: Math.ceil(_.size(config.dataSource.data) / pageSize),
-      selectedKeys: [],
     };
+  }
+
+  handleResort(columnName) {
+    this.setState({
+      columns: _.map(this.state.columns, (column) => {
+        if (column.name === columnName) {
+          const sorting = column.sorting === 'asc' ? 'desc' : 'asc';
+
+          this.setState({
+            records: sorting === 'asc' ?
+              _.sortBy(people.value, columnName) :
+              _.sortBy(people.value, columnName).reverse(),
+          });
+
+          return _.defaults({}, {
+            sorting,
+          }, column);
+        }
+
+        if (column.sorting) {
+          return _.defaults({}, {
+            sorting: true,
+          }, column);
+        }
+
+        return column;
+      }),
+    });
   }
 
   render() {
     return (
       <div className="demo">
-        <h3>This is the basic demo</h3>
-        <button
-          className="btn btn-primary"
-          onClick={(e) => {
-            e.preventDefault();
-
-            this.setState({
-              columns: [...this.state.columns, { name: 'Emails' }],
-            });
-          }}
-        > Add emails column </button>
-
-
-        <div>selected items is: {
-          this.state.selectedKeys.map(key => (
-            <button
-              key={key}
-              className="badge badge-primary badge-pill"
-              onClick={() => {
-                this.setState({
-                  selectedKeys: _.without(this.state.selectedKeys, key),
-                });
-              }}
-            >{key}</button>
-          ))
-        }</div>
         <ReactProjectionGrid
           config={{
-            records: people.value,
+            records: this.state.records,
             columns: this.state.columns,
             primaryKey: 'UserName',
+            handleResort: this.handleResort,
           }}
-          projections={[getPagination({
-            pageNumber: this.state.pageNumber,
-            pageSize: this.state.pageSize,
-          }), getSelection({
-            onSelectChanged: selectedKeys => this.setState({ selectedKeys }),
-            selected: this.state.selectedKeys,
-          }), bootstrapProjection({ modifier: 'table-striped table-dark' }),
+          projections={[
+            bootstrapProjection({ modifier: 'table-striped table-dark' }),
           ]}
         />
-        <div className="btn-group" role="group">
-          <button
-            className="btn btn-secondary"
-            onClick={(e) => {
-              e.preventDefault();
-
-              this.setState((preState) => {
-                if (preState.pageNumber > 0) {
-                  return {
-                    pageNumber: preState.pageNumber - 1,
-                  };
-                }
-                return {
-                  pageNumber: preState.pageNumber,
-                };
-              });
-            }
-            }
-          > Previous page </button>
-          <button
-            className="btn btn-secondary"
-            onClick={(e) => {
-              e.preventDefault();
-
-              this.setState((preState) => {
-                if (preState.pageNumber < preState.pageCount - 1) {
-                  return {
-                    pageNumber: preState.pageNumber + 1,
-                  };
-                }
-                return {
-                  pageNumber: preState.pageNumber,
-                };
-              });
-            }
-            }
-          > Next page </button>
-        </div>
       </div>
     );
   }
