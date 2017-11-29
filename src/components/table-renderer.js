@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
 
+const forbiddenProps = ['class', 'classes', 'className', 'style', 'styles', 'key'];
+
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }) {
-  const forbiddenProps = ['class', 'classes', 'className', 'style', 'styles', 'key'];
-
   if (!_.isEmpty(_.pick(props, forbiddenProps))) {
     console.warn(`${forbiddenProps.join(' or ')} is not allowed in props`); //eslint-disable-line
   }
@@ -24,10 +24,10 @@ function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }
       if (/^on[A-Z]/.test(eventName)) {
         console.warn('Please dont prepend your event name with "on". It may cause bugs if you use frameworks like vue.js'); //eslint-disable-line
 
-        return { [eventName]: handler };
+        return _.defaults({}, { [eventName]: handler }, memo);
       }
 
-      return { [`on${capitalizeFirstLetter(eventName)}`]: handler };
+      return _.defaults({}, { [`on${capitalizeFirstLetter(eventName)}`]: handler }, memo);
     }, {})
   );
 }
@@ -58,14 +58,6 @@ export const TableRender = (props) => {
       </caption>
     ) : null;
 
-  const tfoot = table.tfoot ?
-    (
-      <tfoot {...formatProps(table.tfoot)}>
-        {renderTrs(table.tfoot.trs)}
-      </tfoot>
-    ) : null;
-
-
   return (
     <div>
       <table {...formatProps(table)}>
@@ -93,7 +85,6 @@ export const TableRender = (props) => {
             {renderTrs(tbody.trs)}
           </tbody>
         ))}
-        {tfoot}
       </table>
     </div>
   );

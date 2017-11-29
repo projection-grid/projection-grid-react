@@ -57,7 +57,10 @@ export default class App extends Component {
             records: this.state.records,
             columns: this.state.columns,
             primaryKey: 'UserName',
-            handleResort: this.handleResort,
+            sort: {
+              descClass: 'glyphicon glyphicon-menu-down',
+              handleResort: this.handleResort,
+            },
           }}
           projections={[
             bootstrapProjection({ modifier: 'table-striped table-dark' }),
