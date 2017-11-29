@@ -17,24 +17,6 @@ export default class App extends Component {
         { name: 'UserName', sorting: true },
         { name: 'FirstName', title: 'first name', head: <h1>first name</h1> },
         { name: 'LastName', title: 'last name', sorting: 'asc' },
-        {
-          name: 'AddressInfo',
-          title: 'Address',
-          Component: ({ record }) => {
-            const { AddressInfo: addressInfo } = record;
-
-            if (_.isEmpty(addressInfo)) {
-              return <span>No address information</span>;
-            }
-
-            return _.map(addressInfo, addressInfoItem => (
-              <ul key={_.uniqueId()} >
-                <li key={_.uniqueId()}>{addressInfoItem.Address}</li>
-                <li key={_.uniqueId()}>{JSON.stringify(addressInfoItem.City)}</li>
-              </ul>
-            ));
-          },
-        },
       ],
     };
   }
@@ -81,44 +63,6 @@ export default class App extends Component {
             bootstrapProjection({ modifier: 'table-striped table-dark' }),
           ]}
         />
-        <div className="btn-group" role="group">
-          <button
-            className="btn btn-secondary"
-            onClick={(e) => {
-              e.preventDefault();
-
-              this.setState((preState) => {
-                if (preState.pageNumber > 0) {
-                  return {
-                    pageNumber: preState.pageNumber - 1,
-                  };
-                }
-                return {
-                  pageNumber: preState.pageNumber,
-                };
-              });
-            }
-            }
-          > Previous page </button>
-          <button
-            className="btn btn-secondary"
-            onClick={(e) => {
-              e.preventDefault();
-
-              this.setState((preState) => {
-                if (preState.pageNumber < preState.pageCount - 1) {
-                  return {
-                    pageNumber: preState.pageNumber + 1,
-                  };
-                }
-                return {
-                  pageNumber: preState.pageNumber,
-                };
-              });
-            }
-            }
-          > Next page </button>
-        </div>
       </div>
     );
   }

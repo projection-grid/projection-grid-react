@@ -1,13 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'underscore';
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }) {
+  const forbiddenedProps = ['class', 'classes', 'className', 'style', 'styles', 'key'];
+
+  if (!_.isEmpty(_.pick(props, forbiddenedProps))) {
+    console.warn(`${forbiddenedProps.join(' or ')} is not allowed in props`); //eslint-disable-line
+  }
+
+  return _.defaults(
+    key ? { key } : {},
+    {
+      className: classes.join(' '),
+      style: styles,
+    },
+    _.omit(props, forbiddenedProps),
+    _.reduce(events, (memo, handler, eventName) => {
+      if (/^on[A-Z]/.test(eventName)) {
+        console.warn('Please dont prepend your event name with "on". It may cause bugs if you use frameworks like vue.js'); //eslint-disable-line
+
+        return { [eventName]: handler };
+      }
+
+      return { [`on${capitalizeFirstLetter(eventName)}`]: handler };
+    }, {})
+  );
+}
 
 function renderTrs(trs) {
   return (
     trs.map(tr => (
-      <tr key={tr.key} {...tr.attributes}>
+      <tr {...formatProps(tr)}>
         {tr.tds.map(td => (
-          <td key={td.key} {...td.attributes}>
-            <td.content.Component {...td.content.props} {...td.content.events} />
+          <td {...formatProps(td)}>
+            <td.content.Component {...formatProps(td.content)} />
           </td>
         ))}
       </tr>
@@ -20,17 +51,16 @@ export const TableRender = (props) => {
 
   const caption = table.caption ?
     (
-      <caption {...table.caption.attributes}>
+      <caption {...formatProps(table.caption)}>
         <table.caption.content.Component
-          {...table.caption.content.props}
-          {...table.caption.content.events}
+          {...formatProps(table.caption.content)}
         />
       </caption>
     ) : null;
 
   const tfoot = table.tfoot ?
     (
-      <tfoot {...table.tfoot.attributes}>
+      <tfoot {...formatProps(table.tfoot)}>
         {renderTrs(table.tfoot.trs)}
       </tfoot>
     ) : null;
@@ -38,28 +68,28 @@ export const TableRender = (props) => {
 
   return (
     <div>
-      <table {...table.attributes}>
+      <table {...formatProps(table)}>
         {caption}
         {table.colgroups.map(colgroup => (
-          <colgroup key={colgroup.key} {...colgroup.attributes}>
+          <colgroup {...formatProps(colgroup)}>
             {colgroup.cols.map(col => (
-              <col key={col.key} {...col.attributes} />
+              <col {...formatProps(col)} />
             ))}
           </colgroup>
         ))}
 
-        <thead {...table.thead.attributes}>
+        <thead {...formatProps(table.thead)}>
           {table.thead.trs.map(tr => (
-            <tr key={tr.key} {...tr.attributes}>
+            <tr {...formatProps(tr)}>
               {tr.ths.map(th => (
-                <th key={th.key} {...th.attributes}>
-                  <th.content.Component {...th.content.props} {...th.content.events} />
+                <th {...formatProps(th)}>
+                  <th.content.Component {...formatProps(th.content)} />
                 </th>
               ))}
             </tr>))}
         </thead>
         {table.tbodies.map(tbody => (
-          <tbody key={tbody.key} {...tbody.attributes}>
+          <tbody {...formatProps(tbody)}>
             {renderTrs(tbody.trs)}
           </tbody>
         ))}

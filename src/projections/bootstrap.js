@@ -6,12 +6,9 @@ export function bootstrapProjection(options) {
       return _.defaults({}, {
         composeTable({ config }) {
           const table = model.composeTable({ config });
-          const tableAttributes = table.attributes;
 
-          return _.defaults({
-            attributes: _.defaults({}, {
-              className: `table ${bsConfig.modifier} ${tableAttributes.className || ''}`,
-            }, tableAttributes),
+          return _.defaults({}, {
+            classes: ['table', bsConfig.modifier, ...table.classes],
           }, table);
         },
       }, model);
