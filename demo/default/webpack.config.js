@@ -29,11 +29,11 @@ module.exports = {
       // the file-loader emits files.
       {
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader?publicPath=/dist/&limit=10000&mimetype=application/font-woff',
+        loader: 'url-loader?publicPath=./dist/&limit=10000&mimetype=application/font-woff',
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader?publicPath=/dist/&limit=10000&mimetype=application/octet-stream',
+        loader: 'url-loader?publicPath=./dist/&limit=10000&mimetype=application/octet-stream',
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
@@ -41,7 +41,7 @@ module.exports = {
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader?publicPath=/dist/&limit=10000&mimetype=image/svg+xml',
+        loader: 'url-loader?publicPath=./dist/&limit=10000&mimetype=image/svg+xml',
       },
     ],
   },
@@ -58,5 +58,8 @@ module.exports = {
       'window.jQuery': 'jquery',
       Popper: ['popper.js', 'default'],
     }),
+    new webpack.SourceMapDevToolPlugin({
+      filename: '[name].js.map',
+    })
   ]
 };
