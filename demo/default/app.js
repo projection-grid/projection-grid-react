@@ -52,14 +52,12 @@ export default class App extends Component {
     return (
       <div className="demo">
         <ReactProjectionGrid
-          config={{
-            records: this.state.records,
-            columns: this.state.columns,
-            primaryKey: 'UserName',
-            sort: {
-              descClass: 'glyphicon glyphicon-menu-down',
-              handleResort: this.handleResort,
-            },
+          records={this.state.records}
+          columns={this.state.columns}
+          primaryKey="UserName"
+          sort={{
+            descClass: 'glyphicon glyphicon-menu-down',
+            handleResort: this.handleResort,
           }}
           projections={[
             bootstrapProjection({ modifier: 'table-striped table-dark' }),

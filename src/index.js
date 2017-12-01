@@ -13,11 +13,11 @@ class ReactProjectionGrid extends Component {
 
   render() {
     const model = this.core.compose({
-      config: this.props.config,
+      config: (({ records, columns, primaryKey, sort }) => (
+        { records, columns, primaryKey, sort }
+      ))(this.props),
       projections: this.props.projections || [],
     });
-
-    window.console.log(model);
 
     return (
       <TableRender model={model} />
@@ -26,5 +26,3 @@ class ReactProjectionGrid extends Component {
 }
 
 export default ReactProjectionGrid;
-
-export * from './projections/bootstrap';
