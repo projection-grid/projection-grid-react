@@ -10,7 +10,7 @@ function capitalizeFirstLetter(string) {
 
 function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }) {
   if (!_.isEmpty(_.pick(props, forbiddenProps))) {
-    console.warn(`${forbiddenProps.join(' or ')} is not allowed in props`); //eslint-disable-line
+    window.console.warn(`${forbiddenProps.join(' or ')} is not allowed in props`);
   }
 
   return _.defaults(
@@ -22,7 +22,7 @@ function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }
     _.omit(props, forbiddenProps),
     _.reduce(events, (memo, handler, eventName) => {
       if (/^on[A-Z]/.test(eventName)) {
-        console.warn('Please dont prepend your event name with "on". It may cause bugs if you use frameworks like vue.js'); //eslint-disable-line
+        window.console.warn('Please dont prepend your event name with "on". It may cause bugs if you use frameworks like vue.js');
 
         return _.defaults({}, { [eventName]: handler }, memo);
       }

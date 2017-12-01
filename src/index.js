@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import ProjectionGridCore from 'projection-grid-core';
+import DefaultCell from './components/default-cell';
+import DefaultHeader from './components/default-header';
 import { TableRender } from './components/table-renderer';
-import reactDefault from './projections/react-default';
 
 /* eslint-disable  react/prop-types */
 
 class ReactProjectionGrid extends Component {
   componentWillMount() {
-    this.core = new ProjectionGridCore();
+    this.core = new ProjectionGridCore({ DefaultCell, DefaultHeader });
   }
 
   render() {
     const model = this.core.compose({
       config: this.props.config,
-      projections: [
-        reactDefault,
-        ...this.props.projections || [],
-      ],
+      projections: this.props.projections || [],
     });
+
+    window.console.log(model);
+
     return (
       <TableRender model={model} />
     );
