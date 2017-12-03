@@ -1,5 +1,5 @@
 {
-  "name": "react-projection-grid",
+  "name": "projection-grid-react",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index",
@@ -65,7 +65,7 @@
     "webpack-dev-server": "^2.9.3"
   },
   "dependencies": {
-    "projection-grid-core": "0.0.8",
+    "projection-grid-core": "0.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

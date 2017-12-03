@@ -1,4 +1,4 @@
-# react-projection-grid
+# projection-grid-react
 
 ## Development
 

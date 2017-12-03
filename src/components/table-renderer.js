@@ -10,7 +10,7 @@ function capitalizeFirstLetter(string) {
 
 function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }) {
   if (!_.isEmpty(_.pick(props, forbiddenProps))) {
-    console.warn(`${forbiddenProps.join(' or ')} is not allowed in props`); //eslint-disable-line
+    window.console.warn(`${forbiddenProps.join(' or ')} is not allowed in props`);
   }
 
   return _.defaults(
@@ -22,7 +22,7 @@ function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }
     _.omit(props, forbiddenProps),
     _.reduce(events, (memo, handler, eventName) => {
       if (/^on[A-Z]/.test(eventName)) {
-        console.warn('Please dont prepend your event name with "on". It may cause bugs if you use frameworks like vue.js'); //eslint-disable-line
+        window.console.warn('Please dont prepend your event name with "on". It may cause bugs if you use frameworks like vue.js');
 
         return _.defaults({}, { [eventName]: handler }, memo);
       }
@@ -58,33 +58,40 @@ export const TableRender = (props) => {
       </caption>
     ) : null;
 
+  const colgroups = table.colgroups.map(colgroup => (
+    <colgroup {...formatProps(colgroup)}>
+      {colgroup.cols.map(col => (
+        <col {...formatProps(col)} />
+      ))}
+    </colgroup>
+  ));
+
+  const thead = (
+    <thead {...formatProps(table.thead)}>
+      {table.thead.trs.map(tr => (
+        <tr {...formatProps(tr)}>
+          {tr.ths.map(th => (
+            <th {...formatProps(th)}>
+              <th.content.Component {...formatProps(th.content)} />
+            </th>
+          ))}
+        </tr>))}
+    </thead>
+  );
+
+  const tbodies = table.tbodies.map(tbody => (
+    <tbody {...formatProps(tbody)}>
+      {renderTrs(tbody.trs)}
+    </tbody>
+  ));
+
   return (
     <div>
       <table {...formatProps(table)}>
         {caption}
-        {table.colgroups.map(colgroup => (
-          <colgroup {...formatProps(colgroup)}>
-            {colgroup.cols.map(col => (
-              <col {...formatProps(col)} />
-            ))}
-          </colgroup>
-        ))}
-
-        <thead {...formatProps(table.thead)}>
-          {table.thead.trs.map(tr => (
-            <tr {...formatProps(tr)}>
-              {tr.ths.map(th => (
-                <th {...formatProps(th)}>
-                  <th.content.Component {...formatProps(th.content)} />
-                </th>
-              ))}
-            </tr>))}
-        </thead>
-        {table.tbodies.map(tbody => (
-          <tbody {...formatProps(tbody)}>
-            {renderTrs(tbody.trs)}
-          </tbody>
-        ))}
+        {colgroups}
+        {thead}
+        {tbodies}
       </table>
     </div>
   );

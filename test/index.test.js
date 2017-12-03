@@ -4,7 +4,7 @@ import { mount, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { createWaitForElement } from 'enzyme-wait';
 
-import ReactProjectionGrid from '../src/index';
+import ProjectionGridReact from '../src/index';
 
 const mockConfig = {
   tableClasses: ['table', 'table-bordered'],
@@ -17,16 +17,16 @@ const mockConfig = {
 
 configure({ adapter: new Adapter() });
 
-describe('ReactProjectionGrid', () => {
+describe('ProjectionGridReact', () => {
   test('should not throw any errors', () => {
     expect(() => {
-      renderer.create(<ReactProjectionGrid config={mockConfig} />);
+      renderer.create(<ProjectionGridReact config={mockConfig} />);
     }).not.toThrow();
   });
 
   test('should reflect the table classes config', () => {
     const grid = mount(
-      <ReactProjectionGrid config={mockConfig} />
+      <ProjectionGridReact config={mockConfig} />
     );
     const waitForTable = createWaitForElement('.table');
 

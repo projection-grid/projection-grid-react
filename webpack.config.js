@@ -13,7 +13,7 @@ module.exports = {
     filename: 'index.js',
     publicPath: '/',
     libraryTarget: 'umd',
-    library: 'ReactProjectionGrid',
+    library: 'ProjectionGridReact',
   },
   externals: {
     react: {
