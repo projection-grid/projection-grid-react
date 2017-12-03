@@ -52,7 +52,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'react-projection-grid': '../../dist/index',
+      'projection-grid-react': '../../dist/index',
     },
   },
   plugins: [

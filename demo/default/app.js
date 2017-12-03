@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css'; // eslint-disable-line
 import React, { Component } from 'react';
 import _ from 'underscore';
 
-import ReactProjectionGrid, { sortable, bootstrapProjection } from 'react-projection-grid'; // eslint-disable-line
+import ProjectionGridReact from 'projection-grid-react'; // eslint-disable-line
 import people from './people.json';
 
 export default class App extends Component {
@@ -51,17 +51,15 @@ export default class App extends Component {
   render() {
     return (
       <div className="demo">
-        <ReactProjectionGrid
+        <ProjectionGridReact
           records={this.state.records}
           columns={this.state.columns}
           primaryKey="UserName"
           sort={{
-            descClass: 'glyphicon glyphicon-menu-down',
+            descClasses: ['glyphicon', 'glyphicon-menu-down'],
             handleResort: this.handleResort,
           }}
-          projections={[
-            bootstrapProjection({ modifier: 'table-striped table-dark' }),
-          ]}
+          projections={[]}
         />
       </div>
     );

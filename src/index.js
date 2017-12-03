@@ -1,21 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ProjectionGridCore from 'projection-grid-core';
+import _ from 'underscore';
 import DefaultCell from './components/default-cell';
 import DefaultHeader from './components/default-header';
 import { TableRender } from './components/table-renderer';
 
-/* eslint-disable  react/prop-types */
+/* eslint-disable react/no-unused-prop-types */
 
-class ReactProjectionGrid extends Component {
+const configProps = ['records', 'columns', 'primaryKey', 'sort'];
+
+class ProjectionGridReact extends React.Component {
   componentWillMount() {
     this.core = new ProjectionGridCore({ DefaultCell, DefaultHeader });
   }
 
   render() {
     const model = this.core.compose({
-      config: (({ records, columns, primaryKey, sort }) => (
-        { records, columns, primaryKey, sort }
-      ))(this.props),
+      config: _.pick(this.props, configProps),
       projections: this.props.projections || [],
     });
 
@@ -25,4 +27,22 @@ class ReactProjectionGrid extends Component {
   }
 }
 
-export default ReactProjectionGrid;
+ProjectionGridReact.propTypes = {
+  records: PropTypes.arrayOf(PropTypes.any).isRequired,
+  columns: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
+  primaryKey: PropTypes.string.isRequired,
+  sort: PropTypes.shape({
+    handleResort: PropTypes.func,
+    ascClasses: PropTypes.arrayOf(PropTypes.string),
+    descClasses: PropTypes.arrayOf(PropTypes.string),
+  }),
+  projections: PropTypes.arrayOf(PropTypes.any),
+};
+
+ProjectionGridReact.defaultProps = {
+  columns: [],
+  projections: [],
+  sort: {},
+};
+
+export default ProjectionGridReact;

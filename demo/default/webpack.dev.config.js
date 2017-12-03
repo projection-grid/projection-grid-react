@@ -1,5 +1,5 @@
 var config = require('./webpack.config.js');
 
-config.resolve.alias['react-projection-grid'] = '../../src/index';
+config.resolve.alias['projection-grid-react'] = '../../src/index';
 
 module.exports = config;
