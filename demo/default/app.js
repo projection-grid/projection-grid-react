@@ -12,11 +12,13 @@ export default class App extends Component {
     this.handleResort = this.handleResort.bind(this);
 
     this.state = {
-      records: _.sortBy(people.value, 'LastName'),
+      data: _.sortBy(people.value, 'LastName'),
+      classes: ['table'],
+      primaryKey: 'UserName',
       columns: [
-        { name: 'UserName', sorting: true },
-        { name: 'FirstName', title: 'first name', head: <h1>first name</h1> },
-        { name: 'LastName', title: 'last name', sorting: 'asc' },
+        { key: 'UserName' },
+        { key: 'FirstName' },
+        { key: 'LastName' },
       ],
     };
   }
@@ -53,7 +55,8 @@ export default class App extends Component {
     return (
       <div className="demo">
         <ProjectionGridReact
-          records={this.state.records}
+          data={this.state.data}
+          caption={{ content: 'Projection Grid React' }}
           columns={this.state.columns}
           primaryKey="UserName"
           sort={{
