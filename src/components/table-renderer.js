@@ -69,9 +69,9 @@ export const TableRender = (props) => {
       {table.thead.trs.map(tr => (
         <tr {...formatProps(tr)}>
           {tr.tds.map(td => (
-            <td {...formatProps(td)}>
+            <th {...formatProps(td)}>
               {td.content}
-            </td>
+            </th>
           ))}
         </tr>))}
     </thead>
