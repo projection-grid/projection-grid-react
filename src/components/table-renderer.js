@@ -38,7 +38,7 @@ function renderTrs(trs) {
       <tr {...formatProps(tr)}>
         {tr.tds.map(td => (
           <td {...formatProps(td)}>
-            <td.content.Component {...formatProps(td.content)} />
+            {td.content}
           </td>
         ))}
       </tr>
@@ -52,9 +52,7 @@ export const TableRender = (props) => {
   const caption = table.caption ?
     (
       <caption {...formatProps(table.caption)}>
-        <table.caption.content.Component
-          {...formatProps(table.caption.content)}
-        />
+        {table.caption.content}
       </caption>
     ) : null;
 
@@ -70,10 +68,10 @@ export const TableRender = (props) => {
     <thead {...formatProps(table.thead)}>
       {table.thead.trs.map(tr => (
         <tr {...formatProps(tr)}>
-          {tr.ths.map(th => (
-            <th {...formatProps(th)}>
-              <th.content.Component {...formatProps(th.content)} />
-            </th>
+          {tr.tds.map(td => (
+            <td {...formatProps(td)}>
+              {td.content}
+            </td>
           ))}
         </tr>))}
     </thead>

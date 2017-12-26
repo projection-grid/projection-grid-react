@@ -1,12 +1,14 @@
+import React from 'react';
+import _ from 'underscore';
 import DefaultContent from '../components/default-content';
 
 function wrap(model) {
   const { content } = model;
 
-  return content && content.Component ? model : {
+  return _.isString(content) ? {
     ...model,
-    content: DefaultContent,
-  };
+    content: <DefaultContent text={content} />,
+  } : model;
 }
 
 export default function ({
