@@ -15,7 +15,7 @@ export default class App extends Component {
       data: _.sortBy(people.value, 'LastName'),
       classes: ['table'],
       primaryKey: 'UserName',
-      columns: [
+      cols: [
         { key: 'UserName' },
         { key: 'FirstName' },
         { key: 'LastName' },
@@ -25,7 +25,7 @@ export default class App extends Component {
 
   handleResort(columnName) {
     this.setState({
-      columns: _.map(this.state.columns, (column) => {
+      cols: _.map(this.state.cols, (column) => {
         if (column.name === columnName) {
           const sorting = column.sorting === 'asc' ? 'desc' : 'asc';
 
@@ -57,7 +57,7 @@ export default class App extends Component {
         <ProjectionGridReact
           data={this.state.data}
           caption={{ content: 'Projection Grid React' }}
-          columns={this.state.columns}
+          cols={this.state.cols}
           primaryKey="UserName"
           sort={{
             ascComponent: ({ column }) => (
