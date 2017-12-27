@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ProjectionGridCore from 'projection-grid-core';
+import { createCore, composeRenderModel } from 'projection-grid-core';
 import _ from 'underscore';
-import Defaults from './projections/default-content';
+import defaultContentFactory from './components/default-content-factory';
 import { TableRender } from './components/table-renderer';
 
 /* eslint-disable react/no-unused-prop-types */
 
 class ProjectionGridReact extends React.Component {
   componentWillMount() {
-    this.core = ProjectionGridCore.createDefault(Defaults);
+    this.core = createCore({
+      defaultContentFactory,
+    });
   }
 
   render() {
-    const model = this.core.compose({
+    const model = composeRenderModel(this.core, {
       config: _.omit(this.props, 'projections'),
       projections: this.props.projections || [],
     });
