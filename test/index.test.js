@@ -25,5 +25,5 @@ describe('ProjectionGridReact', () => {
 
     const tree = grid.toJSON();
     expect(tree).toMatchSnapshot();
-  })
+  });
 });

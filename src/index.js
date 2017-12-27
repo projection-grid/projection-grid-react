@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ProjectionGridCore from 'projection-grid-core';
+import { createCore } from 'projection-grid-core';
 import _ from 'underscore';
 import defaultContentFactory from './components/default-content-factory';
 import { TableRender } from './components/table-renderer';
@@ -9,12 +9,11 @@ import { TableRender } from './components/table-renderer';
 
 class ProjectionGridReact extends React.Component {
   componentWillMount() {
-    this.core = ProjectionGridCore.createCore({
+    this.core = createCore({
       defaultContentFactory,
     })
-      .pipeBuiltinPre()
-      .pipe(this.props.projections)
-      .pipeBuiltinPost();
+      .useBuiltin()
+      .use({ pre: this.props.projections });
   }
 
   render() {
