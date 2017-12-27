@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createCore, composeRenderModel } from 'projection-grid-core';
+import ProjectionGridCore from 'projection-grid-core';
 import _ from 'underscore';
 import defaultContentFactory from './components/default-content-factory';
 import { TableRender } from './components/table-renderer';
@@ -9,16 +9,16 @@ import { TableRender } from './components/table-renderer';
 
 class ProjectionGridReact extends React.Component {
   componentWillMount() {
-    this.core = createCore({
+    this.core = ProjectionGridCore.createCore({
       defaultContentFactory,
-    });
+    })
+      .pipeBuiltinPre()
+      .pipe(this.props.projections)
+      .pipeBuiltinPost();
   }
 
   render() {
-    const model = composeRenderModel(this.core, {
-      config: _.omit(this.props, 'projections'),
-      projections: this.props.projections || [],
-    });
+    const model = this.core.compose({ config: _.omit(this.props, 'projections') });
 
     return (
       <TableRender model={model} />
