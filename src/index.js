@@ -26,7 +26,7 @@ class ProjectionGridReact extends React.Component {
 }
 
 ProjectionGridReact.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  data: PropTypes.arrayOf(PropTypes.any),
   caption: PropTypes.shape({ content: PropTypes.any }),
   columns: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
   primaryKey: PropTypes.string.isRequired,
@@ -39,6 +39,7 @@ ProjectionGridReact.propTypes = {
 };
 
 ProjectionGridReact.defaultProps = {
+  data: [],
   columns: [],
   projections: [],
   sort: {},
