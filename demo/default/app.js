@@ -20,7 +20,30 @@ export default class App extends Component {
         { key: 'FirstName' },
         { key: 'LastName' },
       ],
+      isBordered: false,
     };
+
+    this.toggleBorderd = this.toggleBorderd.bind(this);
+    this.toggleStriped = this.toggleStriped.bind(this);
+    this.toggleHover = this.toggleHover.bind(this);
+  }
+
+  toggleBorderd() {
+    this.setState({
+      isBordered: !this.state.isBordered,
+    });
+  }
+
+  toggleStriped() {
+    this.setState({
+      isStriped: !this.state.isStriped,
+    });
+  }
+
+  toggleHover() {
+    this.setState({
+      isHover: !this.state.isHover,
+    });
   }
 
   render() {
@@ -34,25 +57,37 @@ export default class App extends Component {
             <form className="form-inline">
               <div className="checkbox">
                 <label>
-                  <input type="checkbox" v-model="isBordered"/>
+                  <input
+                    type="checkbox"
+                    checked={this.state.isBordered}
+                    onChange={this.toggleBorderd}
+                  />
                   <span>Is bordered?</span>
                 </label>
               </div>
               <div className="checkbox">
                 <label>
-                  <input type="checkbox" v-model="isStriped"/>
+                <input
+                    type="checkbox"
+                    checked={this.state.isStriped}
+                    onChange={this.toggleStriped}
+                  />
                   <span>Is striped?</span>
                 </label>
               </div>
               <div className="checkbox">
                 <label>
-                  <input type="checkbox" v-model="isHover"/>
+                <input
+                    type="checkbox"
+                    checked={this.state.isHover}
+                    onChange={this.toggleHover}
+                  />
                   <span>Is hover?</span>
                 </label>
               </div>
               <div className="form-group">
                 <label>Cell Icon:</label>
-                <select className="form-control" v-model="icon">
+                <select className="form-control" >
                   <option value="">None</option>
                   <option value="ok">OK</option>
                   <option value="pencil">Pencil</option>
@@ -69,6 +104,11 @@ export default class App extends Component {
             primaryKey="UserName"
             projections={[]}
             className="table"
+            classes={[
+              this.state.isBordered && 'table-bordered',
+              this.state.isStriped && 'table-striped',
+              this.state.isHover && 'table-hover',
+            ]}
           />
         </div>
       </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import createCore, { utils } from 'projection-grid-core';
-import _ from 'underscore';
 import defaultContentFactory from './components/default-content-factory';
 import { TableRender } from './components/table-renderer';
 
@@ -17,10 +16,16 @@ class ProjectionGridReact extends React.Component {
   }
 
   render() {
-    const config = utils.assign({}, _.omit(this.props, 'projections', 'className', 'classes'), {
-      classes: utils.compact([...this.props.classes, this.props.className]),
-    });
-    const model = this.core.compose({ config });
+    const { classes, data, caption, cols, primaryKey, sort } = this.props;
+
+    const model = this.core.compose({ config: {
+      classes: utils.compact([...classes, this.props.className]),
+      data,
+      caption,
+      cols,
+      primaryKey,
+      sort,
+    } });
 
     return (
       <TableRender model={model} />
@@ -33,7 +38,7 @@ ProjectionGridReact.propTypes = {
   className: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.any),
   caption: PropTypes.shape({ content: PropTypes.any }),
-  columns: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
+  cols: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
   primaryKey: PropTypes.string.isRequired,
   sort: PropTypes.shape({
     handleResort: PropTypes.func,
@@ -45,7 +50,7 @@ ProjectionGridReact.propTypes = {
 
 ProjectionGridReact.defaultProps = {
   data: [],
-  columns: [],
+  cols: [],
   projections: [],
   sort: {},
   caption: {},
