@@ -9,11 +9,11 @@ import { TableRender } from './components/table-renderer';
 
 class ProjectionGridReact extends React.Component {
   componentWillMount() {
-    this.core = createCore()
-      .useBuiltin({
-        defaultContentFactory,
-      })
-      .use({ pre: this.props.projections });
+    this.core = createCore({
+      defaultContentFactory,
+    })
+      .useBuiltin()
+      .use(this.props.projections);
   }
 
   render() {
