@@ -30,6 +30,11 @@ export default class App extends Component {
           cols={this.state.cols}
           primaryKey="UserName"
           projections={[]}
+          tfoot={{
+            trs: [{
+              content: 'foot placehold',
+            }],
+          }}
         />
       </div>
     );

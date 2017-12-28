@@ -3,9 +3,28 @@ import PropTypes from 'prop-types';
 import _ from 'underscore';
 
 const forbiddenProps = ['class', 'classes', 'className', 'style', 'styles', 'key'];
+const propKeyMapper = {
+  colspan: 'colSpan',
+};
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function mapKeys(obj = {}, keyMapper = {}) {
+  const mapper = {};
+  _.each(keyMapper, (destKey, srcKey) => {
+    if (_.has(obj, srcKey)) {
+      _.extend(mapper, {
+        [destKey]: obj[srcKey],
+      });
+    }
+  });
+  return _.chain({})
+    .extend(obj)
+    .extend(mapper)
+    .omit(_.keys(keyMapper))
+    .value();
 }
 
 function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }) {
@@ -19,7 +38,7 @@ function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }
       className: classes.join(' '),
       style: styles,
     },
-    _.omit(props, forbiddenProps),
+    mapKeys(_.omit(props, forbiddenProps), propKeyMapper),
     _.reduce(events, (memo, handler, eventName) => {
       if (/^on[A-Z]/.test(eventName)) {
         window.console.warn('Please dont prepend your event name with "on". It may cause bugs if you use frameworks like vue.js');
@@ -36,11 +55,18 @@ function renderTrs(trs) {
   return (
     trs.map(tr => (
       <tr {...formatProps(tr)}>
-        {tr.tds.map(td => (
-          <td {...formatProps(td)}>
-            {td.content}
-          </td>
-        ))}
+        {tr.tds.map((td) => {
+          if (td.tag === 'TH') {
+            return (
+              <th {...formatProps(td)}>
+                {td.content}
+              </th>);
+          }
+          return (
+            <td {...formatProps(td)}>
+              {td.content}
+            </td>);
+        })}
       </tr>
     ))
   );
@@ -66,14 +92,7 @@ export const TableRender = (props) => {
 
   const thead = (
     <thead {...formatProps(table.thead)}>
-      {table.thead.trs.map(tr => (
-        <tr {...formatProps(tr)}>
-          {tr.tds.map(td => (
-            <th {...formatProps(td)}>
-              {td.content}
-            </th>
-          ))}
-        </tr>))}
+      {renderTrs(table.thead.trs)}
     </thead>
   );
 
@@ -83,6 +102,12 @@ export const TableRender = (props) => {
     </tbody>
   ));
 
+  const tfoot = table.tfoot ? (
+    <tfoot>
+      {renderTrs(table.tfoot.trs)}
+    </tfoot>
+  ) : null;
+
   return (
     <div>
       <table {...formatProps(table)}>
@@ -90,6 +115,7 @@ export const TableRender = (props) => {
         {colgroups}
         {thead}
         {tbodies}
+        {tfoot}
       </table>
     </div>
   );
