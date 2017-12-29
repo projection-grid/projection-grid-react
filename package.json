@@ -1,6 +1,6 @@
 {
   "name": "projection-grid-react",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index",
   "directories": {
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/projection-grid/react-projection-grid.git"
+    "url": "git+https://github.com/projection-grid/projection-grid-react.git"
   },
   "keywords": [
     "react",
@@ -29,9 +29,9 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/projection-grid/react-projection-grid/issues"
+    "url": "https://github.com/projection-grid/projection-grid-react/issues"
   },
-  "homepage": "https://github.com/projection-grid/react-projection-grid#readme",
+  "homepage": "https://github.com/projection-grid/projection-grid-react#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-jest": "^21.2.0",
