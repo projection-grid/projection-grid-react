@@ -6,26 +6,23 @@ import Octicon from 'react-octicon';
 
 import ProjectionGridReact from 'projection-grid-react';
 import people from './people.json';
+import IconedCell from './iconed-cell';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      data: people.value,
-      classes: ['table'],
-      primaryKey: 'UserName',
-      cols: [
-        { key: 'UserName' },
-        { key: 'FirstName' },
-        { key: 'LastName' },
-      ],
       isBordered: false,
+      isStriped: false,
+      isHover: false,
+      icon: '',
     };
 
     this.toggleBorderd = this.toggleBorderd.bind(this);
     this.toggleStriped = this.toggleStriped.bind(this);
     this.toggleHover = this.toggleHover.bind(this);
+    this.selectTdIcon = this.selectTdIcon.bind(this);
   }
 
   toggleBorderd() {
@@ -43,6 +40,12 @@ export default class App extends Component {
   toggleHover() {
     this.setState({
       isHover: !this.state.isHover,
+    });
+  }
+
+  selectTdIcon(e) {
+    this.setState({
+      icon: e.target.value,
     });
   }
 
@@ -67,7 +70,7 @@ export default class App extends Component {
               </div>
               <div className="checkbox">
                 <label>
-                <input
+                  <input
                     type="checkbox"
                     checked={this.state.isStriped}
                     onChange={this.toggleStriped}
@@ -77,7 +80,7 @@ export default class App extends Component {
               </div>
               <div className="checkbox">
                 <label>
-                <input
+                  <input
                     type="checkbox"
                     checked={this.state.isHover}
                     onChange={this.toggleHover}
@@ -87,7 +90,7 @@ export default class App extends Component {
               </div>
               <div className="form-group">
                 <label>Cell Icon:</label>
-                <select className="form-control" >
+                <select className="form-control" value={this.state.icon} onChange={this.selectTdIcon} >
                   <option value="">None</option>
                   <option value="ok">OK</option>
                   <option value="pencil">Pencil</option>
@@ -98,9 +101,20 @@ export default class App extends Component {
             </form>
           </div>
           <ProjectionGridReact
-            data={this.state.data}
+            data={people.value}
             caption={{ content: 'Projection Grid React' }}
-            cols={this.state.cols}
+            cols={[
+              {
+                key: 'UserName',
+                $td: this.state.icon ? {
+                  content: (td, content) => (
+                    <IconedCell content={content} icon={this.state.icon} />
+                  ),
+                } : {},
+              },
+              { key: 'FirstName' },
+              { key: 'LastName' },
+            ]}
             primaryKey="UserName"
             projections={[]}
             className="table"
@@ -108,7 +122,7 @@ export default class App extends Component {
               this.state.isBordered && 'table-bordered',
               this.state.isStriped && 'table-striped',
               this.state.isHover && 'table-hover',
-            ]}
+            ].filter(c => typeof(c) === 'string')}
             tfoot={{
               trs: [{
                 content: 'foot placehold',

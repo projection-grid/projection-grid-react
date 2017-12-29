@@ -4,8 +4,6 @@ import createCore, { utils } from 'projection-grid-core';
 import defaultContentFactory from './components/default-content-factory';
 import { TableRender } from './components/table-renderer';
 
-/* eslint-disable react/no-unused-prop-types */
-
 class ProjectionGridReact extends React.Component {
   componentWillMount() {
     this.core = createCore()
@@ -39,6 +37,7 @@ ProjectionGridReact.propTypes = {
   className: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.any),
   caption: PropTypes.shape({ content: PropTypes.any }),
+  tfoot: PropTypes.shape({ content: PropTypes.any }),
   cols: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
   primaryKey: PropTypes.string.isRequired,
   sort: PropTypes.shape({
@@ -55,6 +54,7 @@ ProjectionGridReact.defaultProps = {
   projections: [],
   sort: {},
   caption: {},
+  tfoot: {},
   classes: [],
   className: '',
 };
