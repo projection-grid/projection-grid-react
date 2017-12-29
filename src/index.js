@@ -16,7 +16,7 @@ class ProjectionGridReact extends React.Component {
   }
 
   render() {
-    const { classes, data, caption, cols, primaryKey, sort } = this.props;
+    const { classes, data, caption, cols, primaryKey, sort, tfoot } = this.props;
 
     const model = this.core.compose({ config: {
       classes: utils.compact([...classes, this.props.className]),
@@ -25,6 +25,7 @@ class ProjectionGridReact extends React.Component {
       cols,
       primaryKey,
       sort,
+      tfoot,
     } });
 
     return (

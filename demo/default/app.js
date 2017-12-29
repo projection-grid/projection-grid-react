@@ -109,6 +109,11 @@ export default class App extends Component {
               this.state.isStriped && 'table-striped',
               this.state.isHover && 'table-hover',
             ]}
+            tfoot={{
+              trs: [{
+                content: 'foot placehold',
+              }],
+            }}
           />
         </div>
       </div>
