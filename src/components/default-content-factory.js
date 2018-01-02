@@ -1,6 +1,6 @@
 import React from 'react';
-import _ from 'underscore';
+import { utils } from 'projection-grid-core';
 import DefaultContent from '../components/default-content';
 
 export const defaultContentFactory = content =>
-  (_.isString(content) ? content : <DefaultContent text={content} />);
+  (utils.isString(content) ? content : <DefaultContent text={content} />);

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'underscore';
+import { utils } from 'projection-grid-core';
+// import _ from 'underscore';
 
 const forbiddenProps = ['class', 'classes', 'className', 'style', 'styles', 'key'];
 const propKeyMapper = {
@@ -11,44 +12,23 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function mapKeys(obj = {}, keyMapper = {}) {
-  const mapper = {};
-  _.each(keyMapper, (destKey, srcKey) => {
-    if (_.has(obj, srcKey)) {
-      _.extend(mapper, {
-        [destKey]: obj[srcKey],
-      });
-    }
-  });
-  return _.chain({})
-    .extend(obj)
-    .extend(mapper)
-    .omit(_.keys(keyMapper))
-    .value();
-}
-
 function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }) {
-  if (!_.isEmpty(_.pick(props, forbiddenProps))) {
+  if (utils.pick(props, forbiddenProps).length > 0) {
     window.console.warn(`${forbiddenProps.join(' or ')} is not allowed in props`);
   }
 
-  return _.defaults(
-    key ? { key } : {},
-    {
-      className: classes.join(' '),
-      style: styles,
-    },
-    mapKeys(_.omit(props, forbiddenProps), propKeyMapper),
-    _.reduce(events, (memo, handler, eventName) => {
-      if (/^on[A-Z]/.test(eventName)) {
-        window.console.warn('Please dont prepend your event name with "on". It may cause bugs if you use frameworks like vue.js');
+  return utils.assign(key ? { key } : {}, Object.keys(events).reduce((memo, eventName) => {
+    if (/^on[A-Z]/.test(eventName)) {
+      window.console.warn('Please dont prepend your event name with "on". It may cause bugs if you use frameworks like vue.js');
 
-        return _.defaults({}, { [eventName]: handler }, memo);
-      }
+      return utils.assign({}, memo, { [eventName]: events[eventName] });
+    }
 
-      return _.defaults({}, { [`on${capitalizeFirstLetter(eventName)}`]: handler }, memo);
-    }, {})
-  );
+    return utils.assign({}, memo, { [`on${capitalizeFirstLetter(eventName)}`]: events[eventName] });
+  }, {}), utils.updateKeys(utils.omit(props, forbiddenProps), propKeyMapper), {
+    className: classes.join(' '),
+    style: styles,
+  });
 }
 
 function renderTrs(trs) {
