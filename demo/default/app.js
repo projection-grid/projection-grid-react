@@ -3,6 +3,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import Octicon from 'react-octicon';
+import _ from 'lodash';
 
 import ProjectionGridReact from 'projection-grid-react';
 import people from './people.json';
@@ -13,6 +14,7 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      data: people.value,
       isBordered: false,
       isStriped: false,
       isHover: false,
@@ -101,7 +103,7 @@ export default class App extends Component {
             </form>
           </div>
           <ProjectionGridReact
-            data={people.value}
+            data={this.state.data}
             caption={{ content: 'Projection Grid React' }}
             cols={[
               {
@@ -127,6 +129,28 @@ export default class App extends Component {
               trs: [{
                 content: 'foot placehold',
               }],
+            }}
+            sorting={{
+              $td: {
+                asc: {
+                  classes: ['sorting'],
+                },
+              },
+              onSort: (s) => {
+                if (!_.isEmpty(s)) {
+                  const [ sortBy, sortType ] = _.first(Object.entries(s));
+
+                  const dataAsc = _.sortBy(this.state.data, sortBy);
+
+                  this.setState({
+                    data: sortType === 'asc' ? dataAsc : _.reverse(dataAsc),
+                  });
+                } else {
+                  this.setState({
+                    data: people.value,
+                  });
+                }
+              },
             }}
           />
         </div>

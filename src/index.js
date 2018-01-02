@@ -5,6 +5,12 @@ import defaultContentFactory from './components/default-content-factory';
 import { TableRender } from './components/table-renderer';
 
 class ProjectionGridReact extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.gridState = {};
+  }
+
   componentWillMount() {
     this.core = createCore()
       .useBuiltin({
@@ -14,17 +20,25 @@ class ProjectionGridReact extends React.Component {
   }
 
   render() {
-    const { classes, data, caption, cols, primaryKey, sort, tfoot } = this.props;
+    const { classes, data, caption, cols, primaryKey, sorting, tfoot } = this.props;
 
-    const model = this.core.compose({ config: {
-      classes: utils.compact([...classes, this.props.className]),
-      data,
-      caption,
-      cols,
-      primaryKey,
-      sort,
-      tfoot,
-    } });
+    const model = this.core.compose({
+      config: {
+        classes: utils.compact([...classes, this.props.className]),
+        data,
+        caption,
+        cols,
+        primaryKey,
+        sorting,
+        tfoot,
+      },
+      state: this.gridState,
+      dispatch: (reducer, ...args) => {
+        this.gridState = reducer(this.gridState, ...args);
+
+        return this.gridState;
+      },
+    });
 
     return (
       <TableRender model={model} />
@@ -40,10 +54,9 @@ ProjectionGridReact.propTypes = {
   tfoot: PropTypes.shape({ content: PropTypes.any }),
   cols: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
   primaryKey: PropTypes.string.isRequired,
-  sort: PropTypes.shape({
-    handleResort: PropTypes.func,
-    ascClasses: PropTypes.arrayOf(PropTypes.string),
-    descClasses: PropTypes.arrayOf(PropTypes.string),
+  sorting: PropTypes.shape({
+    $td: PropTypes.any,
+    onSort: PropTypes.func,
   }),
   projections: PropTypes.arrayOf(PropTypes.any),
 };
@@ -52,7 +65,7 @@ ProjectionGridReact.defaultProps = {
   data: [],
   cols: [],
   projections: [],
-  sort: {},
+  sorting: {},
   caption: {},
   tfoot: {},
   classes: [],
