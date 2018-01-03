@@ -131,10 +131,17 @@ export default class App extends Component {
               }],
             }}
             sorting={{
+              cols: ['LastName'],
               $td: {
-                asc: {
-                  classes: ['sorting'],
-                },
+                content: (td, content) => {
+                  const { isHeader, key } = td;
+
+                  if (isHeader && key === this.state.sortBy) {
+                    return <IconedCell content={content} icon={this.state.sortType === 'asc' ? 'arrow-up' : 'arrow-down'} />
+                  }
+
+                  return content;
+                }
               },
               onSort: (s) => {
                 if (!_.isEmpty(s)) {
@@ -143,6 +150,8 @@ export default class App extends Component {
                   const dataAsc = _.sortBy(this.state.data, sortBy);
 
                   this.setState({
+                    sortBy,
+                    sortType,
                     data: sortType === 'asc' ? dataAsc : _.reverse(dataAsc),
                   });
                 } else {
