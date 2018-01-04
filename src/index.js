@@ -8,7 +8,7 @@ class ProjectionGridReact extends React.Component {
   constructor(props) {
     super(props);
 
-    this.gridState = {};
+    this.state = {};
   }
 
   componentWillMount() {
@@ -32,11 +32,13 @@ class ProjectionGridReact extends React.Component {
         sorting,
         tfoot,
       },
-      state: this.gridState,
+      state: this.state,
       dispatch: (reducer, ...args) => {
-        this.gridState = reducer(this.gridState, ...args);
+        const state = reducer(this.state, ...args);
 
-        return this.gridState;
+        this.setState(state);
+
+        return state;
       },
     });
 

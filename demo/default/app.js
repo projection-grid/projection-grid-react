@@ -131,34 +131,37 @@ export default class App extends Component {
               }],
             }}
             sorting={{
-              cols: ['LastName'],
-              $td: {
+              cols: ['LastName', 'FirstName'],
+              $asc: {
                 content: (td, content) => {
                   const { isHeader, key } = td;
 
                   if (isHeader && key === this.state.sortBy) {
-                    return <IconedCell content={content} icon={this.state.sortType === 'asc' ? 'arrow-up' : 'arrow-down'} />
+                    return <IconedCell content={content} icon="arrow-up" />
                   }
 
                   return content;
                 }
               },
-              onSort: (s) => {
-                if (!_.isEmpty(s)) {
-                  const [ sortBy, sortType ] = _.first(Object.entries(s));
+              $desc: {
+                content: (td, content) => {
+                  const { isHeader, key } = td;
 
-                  const dataAsc = _.sortBy(this.state.data, sortBy);
+                  if (isHeader && key === this.state.sortBy) {
+                    return <IconedCell content={content} icon="arrow-down" />
+                  }
 
-                  this.setState({
-                    sortBy,
-                    sortType,
-                    data: sortType === 'asc' ? dataAsc : _.reverse(dataAsc),
-                  });
-                } else {
-                  this.setState({
-                    data: people.value,
-                  });
+                  return content;
                 }
+              },
+              onSort: ({ sortBy, direction }) => {
+                const dataAsc = _.sortBy(this.state.data, sortBy);
+
+                this.setState({
+                  sortBy,
+                  direction,
+                  data: direction === 'asc' ? dataAsc : _.reverse(dataAsc),
+                });
               },
             }}
           />
