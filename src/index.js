@@ -32,7 +32,7 @@ class ProjectionGridReact extends React.Component {
 
     const model = this.core.compose({
       config,
-      state: this.props.gridState || this.state,
+      state: this.props.state || this.state,
       dispatch: utils.isFunction(this.props.dispatch) ? this.props.dispatch : defaultDispatch,
     });
 
@@ -56,14 +56,13 @@ ProjectionGridReact.propTypes = {
     }),
   }).isRequired,
   projections: PropTypes.arrayOf(PropTypes.any),
-  gridState: PropTypes.shape({}),
+  state: PropTypes.shape({}),
   dispatch: PropTypes.func,
 };
 
 ProjectionGridReact.defaultProps = {
   projections: [],
-  state: {},
-  gridState: null,
+  state: null,
   dispatch: null,
 };
 
