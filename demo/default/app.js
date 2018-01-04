@@ -53,6 +53,62 @@ export default class App extends Component {
   }
 
   render() {
+    const config = {
+      data: this.state.data,
+      caption: { content: 'Projection Grid React' },
+      cols: [
+        {
+          key: 'UserName',
+          $td: this.state.icon ? {
+            content: (td, content) => (
+              <IconedCell content={content} icon={this.state.icon} />
+            ),
+          } : {},
+        },
+        { key: 'FirstName' },
+        { key: 'LastName' },
+      ],
+      primaryKey: 'UserName',
+      classes: [
+        'table',
+        this.state.isBordered && 'table-bordered',
+        this.state.isStriped && 'table-striped',
+        this.state.isHover && 'table-hover',
+      ].filter(c => typeof(c) === 'string'),
+      tfoot: {
+        trs: [{
+          content: 'foot placehold',
+        }],
+      },
+      sorting: {
+        cols: ['LastName', 'FirstName'],
+        $default: {
+          classes: ['sortable-header'],
+        },
+        $asc: {
+          classes: ['sortable-header'],
+          content: (td, content) => {
+            return <IconedCell content={content} icon="arrow-up" />
+          }
+        },
+        $desc: {
+          classes: ['sortable-header'],
+          content: (td, content) => {
+            return <IconedCell content={content} icon="arrow-down" />
+          }
+        },
+        onSort: ({ sortBy, direction }) => {
+          const dataAsc = _.sortBy(this.state.data, sortBy);
+
+          this.setState({
+            sortBy,
+            direction,
+            data: direction === 'asc' ? dataAsc : _.reverse(dataAsc),
+          });
+        },
+      },
+    };
+
     return (
       <div className="demo">
         <div className="panel panel-primary">
@@ -104,60 +160,7 @@ export default class App extends Component {
             </form>
           </div>
           <ProjectionGridReact
-            data={this.state.data}
-            caption={{ content: 'Projection Grid React' }}
-            cols={[
-              {
-                key: 'UserName',
-                $td: this.state.icon ? {
-                  content: (td, content) => (
-                    <IconedCell content={content} icon={this.state.icon} />
-                  ),
-                } : {},
-              },
-              { key: 'FirstName' },
-              { key: 'LastName' },
-            ]}
-            primaryKey="UserName"
-            projections={[]}
-            className="table"
-            classes={[
-              this.state.isBordered && 'table-bordered',
-              this.state.isStriped && 'table-striped',
-              this.state.isHover && 'table-hover',
-            ].filter(c => typeof(c) === 'string')}
-            tfoot={{
-              trs: [{
-                content: 'foot placehold',
-              }],
-            }}
-            sorting={{
-              cols: ['LastName', 'FirstName'],
-              $default: {
-                classes: ['sortable-header'],
-              },
-              $asc: {
-                classes: ['sortable-header'],
-                content: (td, content) => {
-                  return <IconedCell content={content} icon="arrow-up" />
-                }
-              },
-              $desc: {
-                classes: ['sortable-header'],
-                content: (td, content) => {
-                  return <IconedCell content={content} icon="arrow-down" />
-                }
-              },
-              onSort: ({ sortBy, direction }) => {
-                const dataAsc = _.sortBy(this.state.data, sortBy);
-
-                this.setState({
-                  sortBy,
-                  direction,
-                  data: direction === 'asc' ? dataAsc : _.reverse(dataAsc),
-                });
-              },
-            }}
+            config={config}
           />
         </div>
       </div>
