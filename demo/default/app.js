@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './demo.css';
 import React, { Component } from 'react';
 import Octicon from 'react-octicon';
 import _ from 'lodash';
@@ -132,26 +133,19 @@ export default class App extends Component {
             }}
             sorting={{
               cols: ['LastName', 'FirstName'],
+              $default: {
+                classes: ['sortable-header'],
+              },
               $asc: {
+                classes: ['sortable-header'],
                 content: (td, content) => {
-                  const { isHeader, key } = td;
-
-                  if (isHeader && key === this.state.sortBy) {
-                    return <IconedCell content={content} icon="arrow-up" />
-                  }
-
-                  return content;
+                  return <IconedCell content={content} icon="arrow-up" />
                 }
               },
               $desc: {
+                classes: ['sortable-header'],
                 content: (td, content) => {
-                  const { isHeader, key } = td;
-
-                  if (isHeader && key === this.state.sortBy) {
-                    return <IconedCell content={content} icon="arrow-down" />
-                  }
-
-                  return content;
+                  return <IconedCell content={content} icon="arrow-down" />
                 }
               },
               onSort: ({ sortBy, direction }) => {
