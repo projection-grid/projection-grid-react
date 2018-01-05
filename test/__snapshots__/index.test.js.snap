@@ -10,10 +10,6 @@ exports[`ProjectionGridReact should render correctly 1`] = `
       className=""
       style={Object {}}
     />
-    <colgroup
-      className=""
-      style={Object {}}
-    />
     <thead
       className=""
       style={Object {}}

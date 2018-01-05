@@ -4605,9 +4605,9 @@ progress@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
 
-projection-grid-core@0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/projection-grid-core/-/projection-grid-core-0.2.3.tgz#2b5ef90699ef06e0c3fab8278ee9a8218a626e91"
+projection-grid-core@0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/projection-grid-core/-/projection-grid-core-0.2.6.tgz#0ca8f3d42e76ea097d54463b3016f949517ea0a8"
 
 promise@^7.1.1:
   version "7.3.1"
@@ -4791,15 +4791,6 @@ react-test-renderer@^16.0.0-0, react-test-renderer@^16.1.0:
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.1.0.tgz#33a1d3ce896311e0dd1547649b1456ffa7fda415"
   dependencies:
     fbjs "^0.8.16"
-    object-assign "^4.1.1"
-    prop-types "^15.6.0"
-
-react@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
-  dependencies:
-    fbjs "^0.8.16"
-    loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 

@@ -8,7 +8,6 @@ import ProjectionGridReact from '../src/index';
 const mockConfig = {
   data: [{ UserName: 'abc' }],
   primaryKey: 'UserName',
-
 };
 
 configure({ adapter: new Adapter() });
@@ -16,12 +15,12 @@ configure({ adapter: new Adapter() });
 describe('ProjectionGridReact', () => {
   test('should not throw any errors', () => {
     expect(() => {
-      renderer.create(<ProjectionGridReact {...mockConfig} />);
+      renderer.create(<ProjectionGridReact config={mockConfig} />);
     }).not.toThrow();
   });
 
   test('should render correctly', () => {
-    const grid = renderer.create(<ProjectionGridReact {...mockConfig} />);
+    const grid = renderer.create(<ProjectionGridReact config={mockConfig} />);
 
     const tree = grid.toJSON();
     expect(tree).toMatchSnapshot();
