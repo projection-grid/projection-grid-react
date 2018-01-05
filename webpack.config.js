@@ -22,12 +22,6 @@ module.exports = {
       commonjs: 'react',
       amd: 'react'
     },
-    underscore: {
-      root: '_',
-      commonjs2: 'underscore',
-      commonjs: 'underscore',
-      amd: 'underscore'
-    },
     'prop-types': {
       root: 'PropTypes',
       commonjs2: 'prop-types',

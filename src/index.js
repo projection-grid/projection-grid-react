@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createCore from 'projection-grid-core';
-import _ from 'underscore';
+import createCore, { utils } from 'projection-grid-core';
 import defaultContentFactory from './components/default-content-factory';
 import { TableRender } from './components/table-renderer';
 
-/* eslint-disable react/no-unused-prop-types */
-
 class ProjectionGridReact extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
   componentWillMount() {
     this.core = createCore()
       .useBuiltin({
@@ -17,7 +20,21 @@ class ProjectionGridReact extends React.Component {
   }
 
   render() {
-    const model = this.core.compose({ config: _.omit(this.props, 'projections') });
+    const { config } = this.props;
+
+    const defaultDispatch = (reducer, ...args) => {
+      const state = reducer(this.state, ...args);
+
+      this.setState(state);
+
+      return state;
+    };
+
+    const model = this.core.compose({
+      config,
+      state: this.props.state || this.state,
+      dispatch: utils.isFunction(this.props.dispatch) ? this.props.dispatch : defaultDispatch,
+    });
 
     return (
       <TableRender model={model} />
@@ -26,24 +43,27 @@ class ProjectionGridReact extends React.Component {
 }
 
 ProjectionGridReact.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any),
-  caption: PropTypes.shape({ content: PropTypes.any }),
-  columns: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
-  primaryKey: PropTypes.string.isRequired,
-  sort: PropTypes.shape({
-    handleResort: PropTypes.func,
-    ascClasses: PropTypes.arrayOf(PropTypes.string),
-    descClasses: PropTypes.arrayOf(PropTypes.string),
-  }),
+  config: PropTypes.shape({
+    classes: PropTypes.arrayOf(PropTypes.string),
+    data: PropTypes.arrayOf(PropTypes.any),
+    caption: PropTypes.shape({ content: PropTypes.any }),
+    tfoot: PropTypes.shape({ content: PropTypes.any }),
+    cols: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
+    primaryKey: PropTypes.string.isRequired,
+    sorting: PropTypes.shape({
+      $td: PropTypes.any,
+      onSort: PropTypes.func,
+    }),
+  }).isRequired,
   projections: PropTypes.arrayOf(PropTypes.any),
+  state: PropTypes.shape({}),
+  dispatch: PropTypes.func,
 };
 
 ProjectionGridReact.defaultProps = {
-  data: [],
-  columns: [],
   projections: [],
-  sort: {},
-  caption: {},
+  state: null,
+  dispatch: null,
 };
 
 export default ProjectionGridReact;

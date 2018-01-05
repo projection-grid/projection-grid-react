@@ -1,23 +1,26 @@
 {
   "name": "projection-grid-react",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "",
   "main": "dist/index",
-  "directories": {
-    "example": "examples"
-  },
+  "files": [
+    "src",
+    "dist",
+    "jsdoc",
+    "test"
+  ],
   "scripts": {
     "demo": "webpack && cd demo/default && webpack",
     "build": "webpack --profile --json > stats.json",
     "eslint": "eslint --ext .js src",
     "test": "jest --setupTestFrameworkScriptFile=raf/polyfill",
-    "prepublishOnly": "npm run build && npm run jsdoc",
+    "prepublishOnly": "yarn run build && yarn run jsdoc",
     "jsdoc": "jsdoc -c ./jsdoc.config.json -d ./jsdoc",
     "dev": "cd demo/default && webpack-dev-server --hot --inline --colors --config ./webpack.dev.config.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/projection-grid/react-projection-grid.git"
+    "url": "git+https://github.com/projection-grid/projection-grid-react.git"
   },
   "keywords": [
     "react",
@@ -29,13 +32,14 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/projection-grid/react-projection-grid/issues"
+    "url": "https://github.com/projection-grid/projection-grid-react/issues"
   },
-  "homepage": "https://github.com/projection-grid/react-projection-grid#readme",
+  "homepage": "https://github.com/projection-grid/projection-grid-react#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-jest": "^21.2.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^3.3.7",
@@ -54,27 +58,27 @@
     "file-loader": "^1.1.5",
     "jest": "^21.2.1",
     "jsdoc": "^3.5.5",
+    "lodash": "^4.17.4",
     "minimist": "^1.2.0",
+    "prop-types": "^15.6.0",
     "raf": "^3.4.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-hot-loader": "^3.1.1",
     "react-octicon": "^3.0.1",
     "react-test-renderer": "^16.1.0",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.19.0",
-    "underscore": "^1.8.3",
     "url-loader": "^0.6.2",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.3"
   },
   "dependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "projection-grid-core": "0.2.3",
-    "prop-types": "^15.6.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-hot-loader": "^3.1.1"
+    "projection-grid-core": "0.2.6"
   },
   "peerDependencies": {
-    "underscore": "^1.8.3"
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0"
   },
   "jest": {
     "collectCoverage": true,
