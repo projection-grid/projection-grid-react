@@ -51,7 +51,10 @@ ProjectionGridReact.propTypes = {
     cols: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
     primaryKey: PropTypes.string.isRequired,
     sorting: PropTypes.shape({
-      $td: PropTypes.any,
+      cols: PropTypes.arrayOf(PropTypes.string),
+      $asc: PropTypes.any,
+      $desc: PropTypes.any,
+      $default: PropTypes.any,
       onSort: PropTypes.func,
     }),
   }).isRequired,
