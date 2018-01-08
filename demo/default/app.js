@@ -5,6 +5,7 @@ import './demo.css';
 import React, { Component } from 'react';
 import Octicon from 'react-octicon';
 import _ from 'lodash';
+import ReactPaginate from 'react-paginate';
 
 import ProjectionGridReact from 'projection-grid-react';
 import people from './people.json';
@@ -161,6 +162,18 @@ export default class App extends Component {
           </div>
           <ProjectionGridReact
             config={config}
+          />
+          <ReactPaginate
+            pageCount={30}
+            pageRangeDisplayed={3}
+            margePagesDisplayed={3}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+            previousLabel={"previous"}
+            nextLabel={"next"}
+            breakLabel={<a href="">...</a>}
+            breakClassName={"break-me"}
           />
         </div>
       </div>
