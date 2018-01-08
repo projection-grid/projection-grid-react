@@ -20,13 +20,17 @@ export default class App extends Component {
       isBordered: false,
       isStriped: false,
       isHover: false,
-      icon: '',
+      pageNum: 0,
+      pageSize: 5,
+      gender: 'All',
     };
 
     this.toggleBorderd = this.toggleBorderd.bind(this);
     this.toggleStriped = this.toggleStriped.bind(this);
     this.toggleHover = this.toggleHover.bind(this);
     this.selectTdIcon = this.selectTdIcon.bind(this);
+    this.selectGender = this.selectGender.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   toggleBorderd() {
@@ -50,6 +54,18 @@ export default class App extends Component {
   selectTdIcon(e) {
     this.setState({
       icon: e.target.value,
+    });
+  }
+
+  selectGender(e) {
+    this.setState({
+      gender: e.target.value,
+    });
+  }
+
+  handlePageClick({ selected }) {
+    this.setState({
+      pageNum: selected,
     });
   }
 
@@ -80,6 +96,19 @@ export default class App extends Component {
         trs: [{
           content: 'foot placehold',
         }],
+      },
+      query: {
+        offset: this.state.pageNum * this.state.pageSize,
+        limit: this.state.pageSize,
+        filters: [
+          (item) => {
+            if (this.state.gender === 'All') {
+              return true;
+            }
+
+            return item.Gender === this.state.gender;
+          },
+        ]
       },
       sorting: {
         cols: ['LastName', 'FirstName'],
@@ -158,15 +187,23 @@ export default class App extends Component {
                   <option value="heart-empty">Empty Heart</option>
                 </select>
               </div>
+              <div className="form-group">
+                <label>Gender:</label>
+                <select className="form-control" value={this.state.gender} onChange={this.selectGender} >
+                  <option value="All">all</option>
+                  <option value="Male">male</option>
+                  <option value="Femal">female</option>
+                </select>
+              </div>
             </form>
           </div>
           <ProjectionGridReact
             config={config}
           />
           <ReactPaginate
-            pageCount={30}
-            pageRangeDisplayed={3}
-            margePagesDisplayed={3}
+            pageCount={Math.ceil(this.state.data.length / this.state.pageSize)}
+            pageRangeDisplayed={1}
+            margePagesDisplayed={1}
             containerClassName={"pagination"}
             subContainerClassName={"pages pagination"}
             activeClassName={"active"}
@@ -174,6 +211,7 @@ export default class App extends Component {
             nextLabel={"next"}
             breakLabel={<a href="">...</a>}
             breakClassName={"break-me"}
+            onPageChange={this.handlePageClick}
           />
         </div>
       </div>
