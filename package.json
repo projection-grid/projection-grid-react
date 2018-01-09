@@ -66,6 +66,7 @@
     "react-dom": "^16.2.0",
     "react-hot-loader": "^3.1.1",
     "react-octicon": "^3.0.1",
+    "react-paginate": "^5.0.0",
     "react-test-renderer": "^16.1.0",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.19.0",
