@@ -5,7 +5,6 @@ import './demo.css';
 import React, { Component } from 'react';
 import Octicon from 'react-octicon';
 import _ from 'lodash';
-import ReactPaginate from 'react-paginate';
 
 import ProjectionGridReact from 'projection-grid-react';
 import people from './people.json';
@@ -20,17 +19,13 @@ export default class App extends Component {
       isBordered: false,
       isStriped: false,
       isHover: false,
-      pageNum: 0,
-      pageSize: 5,
-      gender: 'All',
+      icon: '',
     };
 
     this.toggleBorderd = this.toggleBorderd.bind(this);
     this.toggleStriped = this.toggleStriped.bind(this);
     this.toggleHover = this.toggleHover.bind(this);
     this.selectTdIcon = this.selectTdIcon.bind(this);
-    this.selectGender = this.selectGender.bind(this);
-    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   toggleBorderd() {
@@ -54,18 +49,6 @@ export default class App extends Component {
   selectTdIcon(e) {
     this.setState({
       icon: e.target.value,
-    });
-  }
-
-  selectGender(e) {
-    this.setState({
-      gender: e.target.value,
-    });
-  }
-
-  handlePageClick({ selected }) {
-    this.setState({
-      pageNum: selected,
     });
   }
 
@@ -96,19 +79,6 @@ export default class App extends Component {
         trs: [{
           content: 'foot placehold',
         }],
-      },
-      query: {
-        offset: this.state.pageNum * this.state.pageSize,
-        limit: this.state.pageSize,
-        filters: [
-          (item) => {
-            if (this.state.gender === 'All') {
-              return true;
-            }
-
-            return item.Gender === this.state.gender;
-          },
-        ]
       },
       sorting: {
         cols: ['LastName', 'FirstName'],
@@ -187,31 +157,10 @@ export default class App extends Component {
                   <option value="heart-empty">Empty Heart</option>
                 </select>
               </div>
-              <div className="form-group">
-                <label>Gender:</label>
-                <select className="form-control" value={this.state.gender} onChange={this.selectGender} >
-                  <option value="All">all</option>
-                  <option value="Male">male</option>
-                  <option value="Femal">female</option>
-                </select>
-              </div>
             </form>
           </div>
           <ProjectionGridReact
             config={config}
-          />
-          <ReactPaginate
-            pageCount={Math.ceil(this.state.data.length / this.state.pageSize)}
-            pageRangeDisplayed={1}
-            margePagesDisplayed={1}
-            containerClassName={"pagination"}
-            subContainerClassName={"pages pagination"}
-            activeClassName={"active"}
-            previousLabel={"previous"}
-            nextLabel={"next"}
-            breakLabel={<a href="">...</a>}
-            breakClassName={"break-me"}
-            onPageChange={this.handlePageClick}
           />
         </div>
       </div>
