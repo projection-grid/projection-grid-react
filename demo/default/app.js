@@ -5,7 +5,10 @@ import './demo.css';
 import React, { Component } from 'react';
 import Octicon from 'react-octicon';
 import _ from 'lodash';
-import ReactPaginate from 'react-paginate';
+import Pagination from 'rc-pagination';
+import Select from 'rc-select';
+import 'rc-pagination/assets/index.css';
+import 'rc-select/assets/index.css';
 
 import ProjectionGridReact from 'projection-grid-react';
 import people from './people.json';
@@ -20,7 +23,7 @@ export default class App extends Component {
       isBordered: false,
       isStriped: false,
       isHover: false,
-      pageNum: 0,
+      pageNum: 1,
       pageSize: 5,
       gender: 'All',
     };
@@ -30,7 +33,7 @@ export default class App extends Component {
     this.toggleHover = this.toggleHover.bind(this);
     this.selectTdIcon = this.selectTdIcon.bind(this);
     this.selectGender = this.selectGender.bind(this);
-    this.handlePageClick = this.handlePageClick.bind(this);
+    this.handlePaging = this.handlePaging.bind(this);
   }
 
   toggleBorderd() {
@@ -60,7 +63,7 @@ export default class App extends Component {
   selectGender(e) {
     const gender = e.target.value;
     const data = people.value.filter(i => i.Gender === gender || gender === 'All');
-    const pageNum = this.state.pageSize * this.state.pageNum > data.length ? Math.ceil(data.length / this.state.pageSize) - 1 : this.state.pageNum;
+    const pageNum = this.state.pageSize * this.state.pageNum > data.length ? Math.ceil(data.length / this.state.pageSize) : this.state.pageNum;
 
     this.setState({
       gender,
@@ -69,15 +72,15 @@ export default class App extends Component {
     });
   }
 
-  handlePageClick({ selected }) {
+  handlePaging(current, pageSize) {
     this.setState({
-      pageNum: selected,
+      pageNum: current,
     });
   }
 
   render() {
     const config = {
-      data: this.state.data.slice(this.state.pageNum * this.state.pageSize, this.state.pageSize * (this.state.pageNum + 1)),
+      data: this.state.data.slice((this.state.pageNum - 1) * this.state.pageSize, this.state.pageSize * this.state.pageNum),
       caption: { content: 'Projection Grid React' },
       cols: [
         {
@@ -193,19 +196,15 @@ export default class App extends Component {
           <ProjectionGridReact
             config={config}
           />
-          <ReactPaginate
-            pageCount={Math.ceil(this.state.data.length / this.state.pageSize)}
-            pageRangeDisplayed={1}
-            margePagesDisplayed={1}
-            containerClassName={"pagination"}
-            subContainerClassName={"pages pagination"}
-            activeClassName={"active"}
-            previousLabel={"previous"}
-            nextLabel={"next"}
-            breakLabel={<a href="">...</a>}
-            breakClassName={"break-me"}
-            onPageChange={this.handlePageClick}
-            forceSelected={this.state.pageNum}
+          <Pagination
+            total={this.state.data.length}
+            current={this.state.pageNum}
+            onChange={this.handlePaging}
+            pageSize={this.state.pageSize}
+            onShowSizeChange={this.handlePaging}
+            showSizeChanger
+            selectComponentClass={Select}
+            pageSizeOptions={['5', '10', '15']}
           />
         </div>
       </div>
