@@ -60,10 +60,14 @@ export default class App extends Component {
     });
   }
 
+  getPageNum(rawPageNum, data) {
+    return this.state.pageSize * rawPageNum > data.length ? Math.ceil(data.length / this.state.pageSize) : rawPageNum;
+  }
+
   selectGender(e) {
     const gender = e.target.value;
     const data = people.value.filter(i => i.Gender === gender || gender === 'All');
-    const pageNum = this.state.pageSize * this.state.pageNum > data.length ? Math.ceil(data.length / this.state.pageSize) : this.state.pageNum;
+    const pageNum = this.getPageNum(this.state.pageNum, data);
 
     this.setState({
       gender,
@@ -74,7 +78,8 @@ export default class App extends Component {
 
   handlePaging(current, pageSize) {
     this.setState({
-      pageNum: current,
+      pageNum: this.getPageNum(current, this.state.data),
+      pageSize,
     });
   }
 
