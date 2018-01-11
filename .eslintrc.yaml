@@ -68,6 +68,3 @@
       - extensions:
         - ".js"
         - ".jsx"
-
-    jsx-a11y/no-static-element-interactions:
-      - 0

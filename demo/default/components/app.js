@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './demo.css';
+import '../demo.css';
 import React, { Component } from 'react';
 import Octicon from 'react-octicon';
 import _ from 'lodash';
@@ -11,8 +11,9 @@ import 'rc-pagination/assets/index.css';
 import 'rc-select/assets/index.css';
 
 import ProjectionGridReact from 'projection-grid-react';
-import people from './people.json';
+import people from '../people.json';
 import IconedCell from './iconed-cell';
+import EditableCell from './editalbe-cell';
 
 export default class App extends Component {
   constructor(props) {
@@ -96,7 +97,30 @@ export default class App extends Component {
             ),
           } : {},
         },
-        { key: 'FirstName' },
+        {
+          key: 'FirstName',
+          $td: {
+            content: (td, content) => {
+              if (td.isHeader) {
+                return content;
+              }
+
+              const handleEdit = (value) => {
+                this.setState({
+                  data: this.state.data.map((record) => {
+                    if (record.UserName === td.data.UserName) {
+                      return _.defaults({}, { FirstName: value }, record);
+                    }
+
+                    return record;
+                  }),
+                });
+              }
+
+              return <EditableCell value={td.data.FirstName} onValueChanged={handleEdit} />
+            }
+          }
+        },
         { key: 'LastName' },
       ],
       primaryKey: 'UserName',

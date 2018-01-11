@@ -12,7 +12,9 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function formatProps({ key, classes = [], props = {}, events = {}, styles = {} }) {
+function formatProps({
+  key, classes = [], props = {}, events = {}, styles = {},
+}) {
   if (utils.pick(props, forbiddenProps).length > 0) {
     window.console.warn(`${forbiddenProps.join(' or ')} is not allowed in props`);
   }
@@ -99,10 +101,6 @@ export const TableRender = (props) => {
       </table>
     </div>
   );
-};
-
-TableRender.defaultProps = {
-  model: {},
 };
 
 TableRender.propTypes = {
