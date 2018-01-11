@@ -1,14 +1,19 @@
 /* eslint-disable */
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './demo.css';
+import '../demo.css';
 import React, { Component } from 'react';
 import Octicon from 'react-octicon';
 import _ from 'lodash';
+import Pagination from 'rc-pagination';
+import Select from 'rc-select';
+import 'rc-pagination/assets/index.css';
+import 'rc-select/assets/index.css';
 
 import ProjectionGridReact from 'projection-grid-react';
-import people from './people.json';
+import people from '../people.json';
 import IconedCell from './iconed-cell';
+import EditableCell from './editalbe-cell';
 
 export default class App extends Component {
   constructor(props) {
@@ -19,13 +24,17 @@ export default class App extends Component {
       isBordered: false,
       isStriped: false,
       isHover: false,
-      icon: '',
+      pageNum: 1,
+      pageSize: 5,
+      gender: 'All',
     };
 
     this.toggleBorderd = this.toggleBorderd.bind(this);
     this.toggleStriped = this.toggleStriped.bind(this);
     this.toggleHover = this.toggleHover.bind(this);
     this.selectTdIcon = this.selectTdIcon.bind(this);
+    this.selectGender = this.selectGender.bind(this);
+    this.handlePaging = this.handlePaging.bind(this);
   }
 
   toggleBorderd() {
@@ -52,9 +61,32 @@ export default class App extends Component {
     });
   }
 
+  getPageNum(rawPageNum, data) {
+    return this.state.pageSize * rawPageNum > data.length ? Math.ceil(data.length / this.state.pageSize) : rawPageNum;
+  }
+
+  selectGender(e) {
+    const gender = e.target.value;
+    const data = people.value.filter(i => i.Gender === gender || gender === 'All');
+    const pageNum = this.getPageNum(this.state.pageNum, data);
+
+    this.setState({
+      gender,
+      data,
+      pageNum,
+    });
+  }
+
+  handlePaging(current, pageSize) {
+    this.setState({
+      pageNum: this.getPageNum(current, this.state.data),
+      pageSize,
+    });
+  }
+
   render() {
     const config = {
-      data: this.state.data,
+      data: this.state.data.slice((this.state.pageNum - 1) * this.state.pageSize, this.state.pageSize * this.state.pageNum),
       caption: { content: 'Projection Grid React' },
       cols: [
         {
@@ -65,7 +97,30 @@ export default class App extends Component {
             ),
           } : {},
         },
-        { key: 'FirstName' },
+        {
+          key: 'FirstName',
+          $td: {
+            content: (td, content) => {
+              if (td.isHeader) {
+                return content;
+              }
+
+              const handleEdit = (value) => {
+                this.setState({
+                  data: this.state.data.map((record) => {
+                    if (record.UserName === td.data.UserName) {
+                      return _.defaults({}, { FirstName: value }, record);
+                    }
+
+                    return record;
+                  }),
+                });
+              }
+
+              return <EditableCell value={td.data.FirstName} onValueChanged={handleEdit} />
+            }
+          }
+        },
         { key: 'LastName' },
       ],
       primaryKey: 'UserName',
@@ -157,10 +212,28 @@ export default class App extends Component {
                   <option value="heart-empty">Empty Heart</option>
                 </select>
               </div>
+              <div className="form-group">
+                <label>Gender:</label>
+                <select className="form-control" value={this.state.gender} onChange={this.selectGender} >
+                  <option value="All">all</option>
+                  <option value="Male">male</option>
+                  <option value="Female">female</option>
+                </select>
+              </div>
             </form>
           </div>
           <ProjectionGridReact
             config={config}
+          />
+          <Pagination
+            total={this.state.data.length}
+            current={this.state.pageNum}
+            onChange={this.handlePaging}
+            pageSize={this.state.pageSize}
+            onShowSizeChange={this.handlePaging}
+            showSizeChanger
+            selectComponentClass={Select}
+            pageSizeOptions={['5', '10', '15']}
           />
         </div>
       </div>

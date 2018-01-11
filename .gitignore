@@ -5,3 +5,4 @@ dist/
 coverage-report
 jsdoc
 stats.json
+yarn-error.log
