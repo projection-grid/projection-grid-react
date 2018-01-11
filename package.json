@@ -10,13 +10,13 @@
     "test"
   ],
   "scripts": {
-    "demo": "webpack && cd demo/default && webpack",
+    "demo": "webpack && cd demo && webpack",
     "build": "webpack --profile --json > stats.json",
     "eslint": "eslint --ext .js src",
     "test": "jest --setupTestFrameworkScriptFile=raf/polyfill",
     "prepublishOnly": "yarn run build && yarn run jsdoc",
     "jsdoc": "jsdoc -c ./jsdoc.config.json -d ./jsdoc",
-    "dev": "cd demo/default && webpack-dev-server --hot --inline --colors --config ./webpack.dev.config.js"
+    "dev": "cd demo && webpack-dev-server --hot --inline --colors --config ./webpack.dev.config.js"
   },
   "repository": {
     "type": "git",
